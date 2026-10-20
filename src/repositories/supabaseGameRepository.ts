@@ -1,14 +1,30 @@
 import type { EntityAttributeKnowledge } from '../domain/knowledge'
 import type { Question } from '../domain/question'
 import type { KnowledgeKey } from '../engine/questionSelection'
-import { recordAnswer, startGame } from '../lib/gameApi'
 import { supabase } from '../lib/supabase'
 import type { GameRepository } from './gameRepository'
 import type { AnswerValue } from '../domain/answer'
 
 export const supabaseGameRepository: GameRepository = {
   async startGame(categoryId) {
-    return startGame(categoryId)
+    const { data, error } = await supabase.rpc(
+      'start_game',
+      categoryId
+        ? {
+            p_category_id: categoryId,
+          }
+        : {},
+    )
+
+    if (error) {
+      throw new Error(`Failed to start game: ${error.message}`)
+    }
+
+    if (!data) {
+      throw new Error('start_game returned no game ID')
+    }
+
+    return data
   },
 
   async loadCandidates(categoryId) {
@@ -103,8 +119,53 @@ export const supabaseGameRepository: GameRepository = {
     return knowledge
   },
 
+  async loadEntityNames(entityIds) {
+    if (entityIds.length === 0) {
+      return new Map()
+    }
+
+    const { data, error } = await supabase
+      .from('entities')
+      .select('id, canonical_name')
+      .in('id', entityIds)
+
+    if (error) {
+      throw new Error(`Failed to load entity names: ${error.message}`)
+    }
+
+    return new Map(
+      (data ?? []).map((entity) => [entity.id, entity.canonical_name]),
+    )
+  },
+
   async recordAnswer(gameId: string, questionId: string, answer: AnswerValue) {
-    return recordAnswer(gameId, questionId, answer)
+    const { data, error } = await supabase.rpc('record_answer', {
+      p_game_id: gameId,
+      p_question_id: questionId,
+      p_answer: answer,
+    })
+
+    if (error) {
+      throw new Error(`Failed to record answer: ${error.message}`)
+    }
+
+    if (!data) {
+      throw new Error('record_answer returned no game-question ID')
+    }
+
+    return data
+  },
+
+  async applyLearning(gameId) {
+    const { data, error } = await supabase.rpc('apply_learning', {
+      p_game_id: gameId,
+    })
+
+    if (error) {
+      throw new Error(`Failed to apply learning: ${error.message}`)
+    }
+
+    return data ?? 0
   },
 
   async finalizeGame(

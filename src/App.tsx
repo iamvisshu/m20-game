@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import type { AnswerValue } from './domain/answer'
 import {
-  getNextActiveQuestion,
-  recordAnswer,
+  answerCurrentQuestion,
+  finalizeCurrentGame,
   startGame,
-  type GameQuestion,
-} from './lib/gameApi'
+  type ActiveGame,
+} from './features/game/gameService'
+import { supabaseGameRepository } from './repositories'
 
 const ANSWERS: AnswerValue[] = [
   'YES',
@@ -16,36 +17,27 @@ const ANSWERS: AnswerValue[] = [
 ]
 
 function App() {
-  const [gameId, setGameId] = useState<string | null>(null)
-  const [question, setQuestion] = useState<GameQuestion | null>(null)
-  const [questionsAnswered, setQuestionsAnswered] = useState(0)
+  const [game, setGame] = useState<ActiveGame | null>(null)
   const [answering, setAnswering] = useState(false)
-  const [gameFinished, setGameFinished] = useState(false)
+  const [finalizing, setFinalizing] = useState(false)
+  const [resultFinalized, setResultFinalized] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     let cancelled = false
 
     async function initializeGame() {
       try {
-        const id = await startGame()
-        const nextQuestion = await getNextActiveQuestion(id)
+        const activeGame = await startGame(supabaseGameRepository)
 
         if (!cancelled) {
-          setGameId(id)
-          setQuestion(nextQuestion)
-          setGameFinished(nextQuestion === null)
+          setGame(activeGame)
         }
       } catch (err) {
         if (!cancelled) {
           setError(
             err instanceof Error ? err.message : 'Failed to initialize game',
           )
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false)
         }
       }
     }
@@ -58,7 +50,7 @@ function App() {
   }, [])
 
   async function handleAnswer(answer: AnswerValue) {
-    if (!gameId || !question || answering) {
+    if (!game || answering || finalizing) {
       return
     }
 
@@ -66,55 +58,118 @@ function App() {
     setError(null)
 
     try {
-      await recordAnswer(gameId, question.id, answer)
+      const nextGame = await answerCurrentQuestion(
+        game,
+        supabaseGameRepository,
+        answer,
+      )
 
-      const nextQuestion = await getNextActiveQuestion(gameId)
-
-      setQuestionsAnswered((count) => count + 1)
-      setQuestion(nextQuestion)
-      setGameFinished(nextQuestion === null)
+      setGame(nextGame)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to record answer')
+      setError(err instanceof Error ? err.message : 'Failed to process answer')
     } finally {
       setAnswering(false)
     }
   }
 
-  if (loading) {
-    return <h1>Starting M20...</h1>
+  async function handleGuessConfirmation(correct: boolean) {
+    if (!game || finalizing || resultFinalized) {
+      return
+    }
+
+    setFinalizing(true)
+    setError(null)
+
+    try {
+      await finalizeCurrentGame(game, supabaseGameRepository, correct)
+
+      setResultFinalized(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to finalize game')
+    } finally {
+      setFinalizing(false)
+    }
   }
 
-  if (error) {
+  if (!game) {
     return (
       <>
         <h1>M20</h1>
-        <p>Error: {error}</p>
+        {error ? <p>Error: {error}</p> : <p>Starting M20...</p>}
       </>
     )
   }
+
+  const guessedEntityId = game.state.guessedEntityId
+  const guessedEntityName = guessedEntityId
+    ? (game.entityNames.get(guessedEntityId) ?? guessedEntityId)
+    : null
+
+  const gameFinished = game.state.status === 'COMPLETED'
 
   if (gameFinished) {
     return (
       <>
         <h1>M20</h1>
-        <p>Game ID: {gameId}</p>
-        <h2>Question set completed.</h2>
-        <p>Questions answered: {questionsAnswered}</p>
+
+        <p>Game ID: {game.state.gameId}</p>
+
+        <h2>I think you are thinking of: {guessedEntityName ?? 'Unknown'}</h2>
+
+        <p>Questions answered: {game.state.questionsAsked}</p>
+
+        {!resultFinalized ? (
+          <>
+            <p>Was I right?</p>
+
+            <button
+              type="button"
+              disabled={finalizing}
+              onClick={() => void handleGuessConfirmation(true)}
+            >
+              Yes
+            </button>
+
+            <button
+              type="button"
+              disabled={finalizing}
+              onClick={() => void handleGuessConfirmation(false)}
+            >
+              No
+            </button>
+          </>
+        ) : (
+          <p>
+            {game.state.outcome === 'CORRECT_GUESS'
+              ? 'Great! I learned from this game.'
+              : 'Thanks! I will keep this game as feedback.'}
+          </p>
+        )}
+
+        {error && <p>Error: {error}</p>}
       </>
     )
   }
+
+  const currentQuestionId = game.state.currentQuestionId
+
+  const currentQuestion = currentQuestionId
+    ? game.context.questions.find(
+        (question) => question.id === currentQuestionId,
+      )
+    : undefined
 
   return (
     <>
       <h1>M20</h1>
 
-      <p>Game ID: {gameId}</p>
+      <p>Game ID: {game.state.gameId}</p>
 
-      <p>Question {questionsAnswered + 1}</p>
+      <p>Question {game.state.questionsAsked + 1}</p>
 
-      {question && (
+      {currentQuestion && (
         <>
-          <h2>{question.text}</h2>
+          <h2>{currentQuestion.text}</h2>
 
           {ANSWERS.map((answer) => (
             <button
@@ -128,6 +183,8 @@ function App() {
           ))}
         </>
       )}
+
+      {error && <p>Error: {error}</p>}
     </>
   )
 }

@@ -14,6 +14,8 @@ export interface GameRepository {
     entityIds: string[],
   ): Promise<Map<KnowledgeKey, EntityAttributeKnowledge>>
 
+  loadEntityNames(entityIds: string[]): Promise<Map<string, string>>
+
   recordAnswer(
     gameId: string,
     questionId: string,
@@ -25,4 +27,6 @@ export interface GameRepository {
     guessedEntityId: string,
     correct: boolean,
   ): Promise<void>
+
+  applyLearning(gameId: string): Promise<number>
 }
