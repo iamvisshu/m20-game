@@ -1,5 +1,6 @@
 export * from './answer'
 export * from './attribute'
 export * from './entity'
-export * from './question'
+export * from './game'
 export * from './knowledge'
+export * from './question'

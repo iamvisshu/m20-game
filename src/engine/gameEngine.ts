@@ -1,0 +1,235 @@
+import type { AnswerValue } from '../domain/answer'
+import type { EntityAttributeKnowledge } from '../domain/knowledge'
+import type { GameState } from '../domain/game'
+import type { Question } from '../domain/question'
+import { rankCandidates, scoreCandidate } from './candidateScoring'
+import { type KnowledgeKey, selectBestQuestion } from './questionSelection'
+import {
+  DEFAULT_MAX_QUESTIONS,
+  DEFAULT_MIN_GUESS_GAP,
+  DEFAULT_MIN_GUESS_SCORE,
+  evaluateTermination,
+  type TerminationConfig,
+  type TerminationResult,
+} from './termination'
+
+export interface GameEngineContext {
+  questions: Question[]
+  knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>
+  terminationConfig?: TerminationConfig
+}
+
+export interface GameTurnResult {
+  state: GameState
+  termination: TerminationResult
+  nextQuestion?: Question
+}
+
+function createGameId(): string {
+  return crypto.randomUUID()
+}
+
+function rankCandidatesForAnswers(
+  candidateIds: string[],
+  answers: GameState['answers'],
+  questions: Question[],
+  knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
+): Array<{ entityId: string; score: number }> {
+  const questionsById = new Map(
+    questions.map((question) => [question.id, question]),
+  )
+
+  return candidateIds
+    .map((entityId) => {
+      let score = 0
+
+      for (const gameAnswer of answers) {
+        const question = questionsById.get(gameAnswer.questionId)
+
+        if (!question) {
+          throw new Error(`Question not found: ${gameAnswer.questionId}`)
+        }
+
+        const knowledge = knowledgeByEntityAttribute.get(
+          `${entityId}:${question.primaryAttributeId}`,
+        )
+
+        score += scoreCandidate(gameAnswer.answer, knowledge).score
+      }
+
+      return {
+        entityId,
+        score,
+      }
+    })
+    .sort((a, b) => b.score - a.score)
+}
+
+function getTerminationConfig(context: GameEngineContext): TerminationConfig {
+  return (
+    context.terminationConfig ?? {
+      maxQuestions: DEFAULT_MAX_QUESTIONS,
+      minGuessScore: DEFAULT_MIN_GUESS_SCORE,
+      minGuessGap: DEFAULT_MIN_GUESS_GAP,
+    }
+  )
+}
+
+function getNextQuestion(
+  state: GameState,
+  context: GameEngineContext,
+): Question | undefined {
+  return selectBestQuestion(
+    context.questions,
+    state.candidateIds,
+    context.knowledgeByEntityAttribute,
+    new Set(state.askedQuestionIds),
+  )
+}
+
+export function createGame(
+  candidateIds: string[],
+  context: GameEngineContext,
+  gameId = createGameId(),
+): GameState {
+  if (candidateIds.length === 0) {
+    throw new Error('A game requires at least one candidate.')
+  }
+
+  const initialRankings = rankCandidates(
+    candidateIds,
+    'UNKNOWN',
+    new Map(),
+  ).map((candidate) => ({
+    entityId: candidate.entityId,
+    score: candidate.score,
+  }))
+
+  const state: GameState = {
+    gameId,
+    candidateIds: [...candidateIds],
+    answers: [],
+    askedQuestionIds: [],
+    rankedCandidates: initialRankings,
+    questionsAsked: 0,
+    status: 'IN_PROGRESS',
+  }
+
+  const nextQuestion = getNextQuestion(state, context)
+
+  if (!nextQuestion) {
+    throw new Error('No active questions are available.')
+  }
+
+  return {
+    ...state,
+    currentQuestionId: nextQuestion.id,
+  }
+}
+
+export function answerQuestion(
+  state: GameState,
+  questionId: string,
+  answer: AnswerValue,
+  context: GameEngineContext,
+): GameTurnResult {
+  if (state.status !== 'IN_PROGRESS') {
+    throw new Error('Cannot answer a completed or abandoned game.')
+  }
+
+  if (state.currentQuestionId !== questionId) {
+    throw new Error('The supplied question is not the current question.')
+  }
+
+  if (state.askedQuestionIds.includes(questionId)) {
+    throw new Error('Question has already been answered.')
+  }
+
+  const nextAnswers = [
+    ...state.answers,
+    {
+      questionId,
+      answer,
+    },
+  ]
+
+  const nextAskedQuestionIds = [...state.askedQuestionIds, questionId]
+
+  const questionsAsked = state.questionsAsked + 1
+
+  const rankedCandidates = rankCandidatesForAnswers(
+    state.candidateIds,
+    nextAnswers,
+    context.questions,
+    context.knowledgeByEntityAttribute,
+  )
+
+  const nextState: GameState = {
+    ...state,
+    answers: nextAnswers,
+    askedQuestionIds: nextAskedQuestionIds,
+    rankedCandidates,
+    questionsAsked,
+    currentQuestionId: undefined,
+  }
+
+  const termination = evaluateTermination(
+    rankedCandidates,
+    questionsAsked,
+    getTerminationConfig(context),
+  )
+
+  if (termination.shouldGuess) {
+    const guessedEntityId = termination.candidate?.entityId
+
+    return {
+      state: {
+        ...nextState,
+        status: 'COMPLETED',
+        terminationReason: termination.reason,
+        guessedEntityId,
+      },
+      termination,
+    }
+  }
+
+  const nextQuestion = getNextQuestion(nextState, context)
+
+  if (!nextQuestion) {
+    throw new Error('No unanswered active questions remain.')
+  }
+
+  return {
+    state: {
+      ...nextState,
+      terminationReason: 'CONTINUE',
+      currentQuestionId: nextQuestion.id,
+    },
+    termination,
+    nextQuestion,
+  }
+}
+
+export function finalizeGuess(state: GameState, correct: boolean): GameState {
+  if (state.status !== 'COMPLETED') {
+    throw new Error('There is no completed guess to finalize.')
+  }
+
+  return {
+    ...state,
+    outcome: correct ? 'CORRECT_GUESS' : 'WRONG_GUESS',
+  }
+}
+
+export function abandonGame(state: GameState): GameState {
+  if (state.status !== 'IN_PROGRESS') {
+    throw new Error('Only an in-progress game can be abandoned.')
+  }
+
+  return {
+    ...state,
+    status: 'ABANDONED',
+    outcome: 'PLAYER_GAVE_UP',
+    currentQuestionId: undefined,
+  }
+}
