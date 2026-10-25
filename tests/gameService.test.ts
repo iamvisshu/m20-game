@@ -77,6 +77,74 @@ describe('gameService integration', () => {
     expect(repository.loadEntityNames).not.toHaveBeenCalled()
   })
 
+  it('propagates repository errors when loading candidates', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to load candidates')
+
+    vi.mocked(repository.loadCandidates).mockRejectedValue(repositoryError)
+
+    await expect(startGame(repository, categoryId)).rejects.toThrow(
+      'Failed to load candidates',
+    )
+
+    expect(repository.startGame).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadCandidates).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadQuestions).toHaveBeenCalled()
+    expect(repository.loadKnowledge).not.toHaveBeenCalled()
+    expect(repository.loadEntityNames).not.toHaveBeenCalled()
+  })
+
+  it('propagates repository errors when loading questions', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to load questions')
+
+    vi.mocked(repository.loadQuestions).mockRejectedValue(repositoryError)
+
+    await expect(startGame(repository, categoryId)).rejects.toThrow(
+      'Failed to load questions',
+    )
+
+    expect(repository.startGame).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadCandidates).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadQuestions).toHaveBeenCalled()
+    expect(repository.loadKnowledge).not.toHaveBeenCalled()
+    expect(repository.loadEntityNames).not.toHaveBeenCalled()
+  })
+
+  it('propagates repository errors when loading knowledge', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to load knowledge')
+
+    vi.mocked(repository.loadKnowledge).mockRejectedValue(repositoryError)
+
+    await expect(startGame(repository, categoryId)).rejects.toThrow(
+      'Failed to load knowledge',
+    )
+
+    expect(repository.startGame).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadCandidates).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadQuestions).toHaveBeenCalled()
+    expect(repository.loadKnowledge).toHaveBeenCalledWith([entityId])
+    expect(repository.loadEntityNames).toHaveBeenCalledWith([entityId])
+  })
+
+  it('propagates repository errors when loading entity names', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to load entity names')
+
+    vi.mocked(repository.loadEntityNames).mockRejectedValue(repositoryError)
+
+    await expect(startGame(repository, categoryId)).rejects.toThrow(
+      'Failed to load entity names',
+    )
+
+    expect(repository.startGame).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadCandidates).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadQuestions).toHaveBeenCalled()
+    expect(repository.loadKnowledge).toHaveBeenCalledWith([entityId])
+    expect(repository.loadEntityNames).toHaveBeenCalledWith([entityId])
+  })
+
   it('records an answer through the repository and updates engine state', async () => {
     const repository = createRepository()
     const activeGame = await startGame(repository)
