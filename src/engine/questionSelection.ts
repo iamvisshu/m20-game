@@ -1,26 +1,254 @@
+import type { AnswerValue } from '../domain/answer'
 import type { EntityAttributeKnowledge } from '../domain/knowledge'
 import type { Question } from '../domain/question'
 
 export type KnowledgeKey = `${string}:${string}`
 
+export interface AnswerStateProbabilities {
+  YES: number
+  PROBABLY_YES: number
+  UNKNOWN: number
+  PROBABLY_NO: number
+  NO: number
+}
+
 export interface QuestionCandidate {
   question: Question
   informationGain: number
+  coverage: number
+  reliability: number
+  redundancyPenalty: number
+  applicability: number
+  finalScore: number
 }
 
-function entropy(probability: number): number {
-  if (probability <= 0 || probability >= 1) {
-    return 0
-  }
-
-  return (
-    -probability * Math.log2(probability) -
-    (1 - probability) * Math.log2(1 - probability)
-  )
+export interface QuestionSelectionConfig {
+  coverageWeight?: number
+  reliabilityWeight?: number
+  redundancyPenalty?: number
+  minimumApplicability?: number
+  applicabilityByQuestionId?: Map<string, number>
 }
+
+const DEFAULT_SELECTION_CONFIG: Required<
+  Omit<QuestionSelectionConfig, 'applicabilityByQuestionId'>
+> = {
+  coverageWeight: 0.5,
+  reliabilityWeight: 1,
+  redundancyPenalty: 0.25,
+  minimumApplicability: 0.25,
+}
+
+const ANSWER_STATES: AnswerValue[] = [
+  'YES',
+  'PROBABLY_YES',
+  'UNKNOWN',
+  'PROBABLY_NO',
+  'NO',
+]
+
+const BASE_PROBABILITIES_TRUE: AnswerStateProbabilities = {
+  YES: 0.7,
+  PROBABLY_YES: 0.15,
+  UNKNOWN: 0.1,
+  PROBABLY_NO: 0.04,
+  NO: 0.01,
+}
+
+const BASE_PROBABILITIES_FALSE: AnswerStateProbabilities = {
+  YES: 0.01,
+  PROBABLY_YES: 0.04,
+  UNKNOWN: 0.1,
+  PROBABLY_NO: 0.15,
+  NO: 0.7,
+}
+
+const UNIFORM_PROBABILITY = 1 / ANSWER_STATES.length
 
 function knowledgeKey(entityId: string, attributeId: string): KnowledgeKey {
   return `${entityId}:${attributeId}`
+}
+
+function entropy(probabilities: number[]): number {
+  return probabilities.reduce((total, probability) => {
+    if (probability <= 0) return total
+    return total - probability * Math.log2(probability)
+  }, 0)
+}
+
+function getBaseProbabilities(value: boolean): AnswerStateProbabilities {
+  return value ? BASE_PROBABILITIES_TRUE : BASE_PROBABILITIES_FALSE
+}
+
+function getAnswerStateProbability(
+  answer: AnswerValue,
+  knowledge: EntityAttributeKnowledge | undefined,
+): number {
+  if (!knowledge || knowledge.confidence <= 0) {
+    return UNIFORM_PROBABILITY
+  }
+
+  const confidence = Math.min(1, Math.max(0, knowledge.confidence))
+  const baseProbability = getBaseProbabilities(knowledge.value)[answer]
+
+  return confidence * baseProbability + (1 - confidence) * UNIFORM_PROBABILITY
+}
+
+export function calculateAnswerStateProbabilities(
+  knowledge: EntityAttributeKnowledge | undefined,
+): AnswerStateProbabilities {
+  if (!knowledge || knowledge.confidence <= 0) {
+    return {
+      YES: UNIFORM_PROBABILITY,
+      PROBABLY_YES: UNIFORM_PROBABILITY,
+      UNKNOWN: UNIFORM_PROBABILITY,
+      PROBABLY_NO: UNIFORM_PROBABILITY,
+      NO: UNIFORM_PROBABILITY,
+    }
+  }
+
+  const confidence = Math.min(1, Math.max(0, knowledge.confidence))
+  const base = getBaseProbabilities(knowledge.value)
+
+  const probabilities: AnswerStateProbabilities = {
+    YES: base.YES * confidence + UNIFORM_PROBABILITY * (1 - confidence),
+    PROBABLY_YES:
+      base.PROBABLY_YES * confidence + UNIFORM_PROBABILITY * (1 - confidence),
+    UNKNOWN: base.UNKNOWN * confidence + UNIFORM_PROBABILITY * (1 - confidence),
+    PROBABLY_NO:
+      base.PROBABLY_NO * confidence + UNIFORM_PROBABILITY * (1 - confidence),
+    NO: base.NO * confidence + UNIFORM_PROBABILITY * (1 - confidence),
+  }
+
+  const total = ANSWER_STATES.reduce(
+    (sum, answer) => sum + probabilities[answer],
+    0,
+  )
+
+  return {
+    YES: probabilities.YES / total,
+    PROBABLY_YES: probabilities.PROBABLY_YES / total,
+    UNKNOWN: probabilities.UNKNOWN / total,
+    PROBABLY_NO: probabilities.PROBABLY_NO / total,
+    NO: probabilities.NO / total,
+  }
+}
+
+function calculateCoverage(
+  candidateIds: string[],
+  knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
+  attributeId: string,
+): number {
+  if (candidateIds.length === 0) return 0
+
+  const knownCandidates = candidateIds.filter((candidateId) => {
+    const knowledge = knowledgeByEntityAttribute.get(
+      knowledgeKey(candidateId, attributeId),
+    )
+
+    return Boolean(knowledge && knowledge.confidence > 0)
+  }).length
+
+  return knownCandidates / candidateIds.length
+}
+
+function calculateReliability(
+  candidateIds: string[],
+  knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
+  attributeId: string,
+): number {
+  if (candidateIds.length === 0) return 0
+
+  let weightedConfidence = 0
+  let knownCandidates = 0
+
+  for (const candidateId of candidateIds) {
+    const knowledge = knowledgeByEntityAttribute.get(
+      knowledgeKey(candidateId, attributeId),
+    )
+
+    if (!knowledge || knowledge.confidence <= 0) continue
+
+    knownCandidates += 1
+    weightedConfidence += Math.min(1, Math.max(0, knowledge.confidence))
+  }
+
+  if (knownCandidates === 0) return 0
+
+  return weightedConfidence / knownCandidates
+}
+
+function calculateRedundancyPenalty(
+  question: Question,
+  questions: Question[],
+  askedQuestionIds: Set<string>,
+): number {
+  if (askedQuestionIds.size === 0) return 0
+
+  const askedQuestions = questions.filter((candidate) =>
+    askedQuestionIds.has(candidate.id),
+  )
+
+  if (askedQuestions.length === 0) return 0
+
+  const sameFamily = question.questionFamilyId
+    ? askedQuestions.filter(
+        (askedQuestion) =>
+          askedQuestion.questionFamilyId === question.questionFamilyId,
+      ).length
+    : 0
+
+  const sameAttribute = askedQuestions.filter(
+    (askedQuestion) =>
+      askedQuestion.primaryAttributeId === question.primaryAttributeId,
+  ).length
+
+  if (sameFamily > 0) return Math.min(1, 0.5 + sameFamily * 0.15)
+  if (sameAttribute > 0) return Math.min(1, 0.25 + sameAttribute * 0.1)
+
+  return 0
+}
+
+function calculateExpectedEntropy(
+  candidateIds: string[],
+  knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
+  attributeId: string,
+): number {
+  if (candidateIds.length <= 1) return 0
+
+  const answerProbabilities = ANSWER_STATES.map((answer) => {
+    const probability =
+      candidateIds.reduce((sum, candidateId) => {
+        const knowledge = knowledgeByEntityAttribute.get(
+          knowledgeKey(candidateId, attributeId),
+        )
+
+        return sum + getAnswerStateProbability(answer, knowledge)
+      }, 0) / candidateIds.length
+
+    return {
+      answer,
+      probability,
+    }
+  })
+
+  return answerProbabilities.reduce((expectedEntropy, state) => {
+    if (state.probability <= 0) return expectedEntropy
+
+    const posterior = candidateIds
+      .map((candidateId) => {
+        const knowledge = knowledgeByEntityAttribute.get(
+          knowledgeKey(candidateId, attributeId),
+        )
+
+        return getAnswerStateProbability(state.answer, knowledge)
+      })
+      .map(
+        (likelihood) => likelihood / (state.probability * candidateIds.length),
+      )
+
+    return expectedEntropy + state.probability * entropy(posterior)
+  }, 0)
 }
 
 export function calculateInformationGain(
@@ -30,30 +258,14 @@ export function calculateInformationGain(
 ): number {
   if (candidateIds.length <= 1) return 0
 
-  let trueWeight = 0
-  let knownWeight = 0
+  const priorEntropy = Math.log2(candidateIds.length)
+  const expectedPosteriorEntropy = calculateExpectedEntropy(
+    candidateIds,
+    knowledgeByEntityAttribute,
+    attributeId,
+  )
 
-  for (const candidateId of candidateIds) {
-    const knowledge = knowledgeByEntityAttribute.get(
-      knowledgeKey(candidateId, attributeId),
-    )
-
-    if (!knowledge || knowledge.confidence <= 0) continue
-
-    const weight = knowledge.confidence
-
-    if (knowledge.value) {
-      trueWeight += weight
-    }
-
-    knownWeight += weight
-  }
-
-  if (knownWeight === 0) return 0
-
-  const probabilityTrue = trueWeight / knownWeight
-
-  return entropy(probabilityTrue)
+  return Math.max(0, priorEntropy - expectedPosteriorEntropy)
 }
 
 export function selectBestQuestion(
@@ -61,21 +273,94 @@ export function selectBestQuestion(
   candidateIds: string[],
   knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
   askedQuestionIds: Set<string>,
+  config: QuestionSelectionConfig = {},
 ): Question | undefined {
-  const available = questions.filter(
-    (question) => question.active && !askedQuestionIds.has(question.id),
-  )
+  const selectionConfig = {
+    ...DEFAULT_SELECTION_CONFIG,
+    ...config,
+  }
 
-  const scored: QuestionCandidate[] = available.map((question) => ({
-    question,
-    informationGain: calculateInformationGain(
+  const available = questions.filter((question) => {
+    if (!question.active || askedQuestionIds.has(question.id)) {
+      return false
+    }
+
+    const applicability =
+      selectionConfig.applicabilityByQuestionId?.get(question.id) ?? 1
+
+    return applicability >= selectionConfig.minimumApplicability
+  })
+
+  const scored: QuestionCandidate[] = available.map((question) => {
+    const informationGain = calculateInformationGain(
       candidateIds,
       knowledgeByEntityAttribute,
       question.primaryAttributeId,
-    ),
-  }))
+    )
 
-  scored.sort((a, b) => b.informationGain - a.informationGain)
+    const coverage = calculateCoverage(
+      candidateIds,
+      knowledgeByEntityAttribute,
+      question.primaryAttributeId,
+    )
+
+    const reliability = calculateReliability(
+      candidateIds,
+      knowledgeByEntityAttribute,
+      question.primaryAttributeId,
+    )
+
+    const redundancyPenalty = calculateRedundancyPenalty(
+      question,
+      questions,
+      askedQuestionIds,
+    )
+
+    const applicability =
+      selectionConfig.applicabilityByQuestionId?.get(question.id) ?? 1
+
+    const coverageFactor = 1 - selectionConfig.coverageWeight * (1 - coverage)
+
+    const reliabilityFactor =
+      1 - selectionConfig.reliabilityWeight * (1 - reliability)
+
+    const redundancyFactor =
+      1 - selectionConfig.redundancyPenalty * redundancyPenalty
+
+    const finalScore = Math.max(
+      0,
+      informationGain *
+        coverageFactor *
+        reliabilityFactor *
+        redundancyFactor *
+        applicability,
+    )
+
+    return {
+      question,
+      informationGain,
+      coverage,
+      reliability,
+      redundancyPenalty,
+      applicability,
+      finalScore,
+    }
+  })
+
+  scored.sort((a, b) => {
+    if (b.finalScore !== a.finalScore) {
+      return b.finalScore - a.finalScore
+    }
+
+    if (b.informationGain !== a.informationGain) {
+      return b.informationGain - a.informationGain
+    }
+
+    return (
+      questions.findIndex((question) => question.id === a.question.id) -
+      questions.findIndex((question) => question.id === b.question.id)
+    )
+  })
 
   return scored[0]?.question
 }
