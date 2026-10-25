@@ -7,6 +7,7 @@ import {
   type ActiveGame,
 } from './features/game/gameService'
 import { supabaseGameRepository } from './repositories'
+import { ensureAnonymousSession } from './lib/auth'
 
 const ANSWERS: AnswerValue[] = [
   'YES',
@@ -28,6 +29,8 @@ function App() {
 
     async function initializeGame() {
       try {
+        await ensureAnonymousSession()
+
         const activeGame = await startGame(supabaseGameRepository)
 
         if (!cancelled) {
