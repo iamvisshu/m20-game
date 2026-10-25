@@ -9,10 +9,23 @@ import { calculateCandidateConfidences } from './termination'
 
 export type SimulationAnswerProfile = 'EXACT' | 'REALISTIC'
 
+export interface SimulationEngineConfig {
+  maxQuestions: number
+  minGuessConfidence: number
+  minGuessGap: number
+}
+
+export const DEFAULT_SIMULATION_ENGINE_CONFIG: SimulationEngineConfig = {
+  maxQuestions: 20,
+  minGuessConfidence: 0.65,
+  minGuessGap: 0.2,
+}
+
 export interface SimulationConfig {
   gamesPerEntity: number
   seed: number
   answerProfile: SimulationAnswerProfile
+  engineConfig?: Partial<SimulationEngineConfig>
   maxSafetySteps?: number
 }
 
@@ -28,6 +41,7 @@ export interface SimulationEntityMetrics {
 export interface SimulationReport {
   seed: number
   answerProfile: SimulationAnswerProfile
+  engineConfig: SimulationEngineConfig
   totalGames: number
   correctGames: number
   wrongGames: number
@@ -41,25 +55,15 @@ export interface SimulationReport {
   wrongGuessRate: number
   averageFinalConfidence: number
   averageQuestionEffectiveness: number
+  averageFinalCandidateCount: number
+  averageFinalConfidenceGap: number
   perEntity: Record<string, SimulationEntityMetrics>
 }
 
+type SimulationKnowledge = EntityAttributeKnowledge | undefined
+
 interface RandomSource {
   next(): number
-}
-
-function createSeededRandom(seed: number): RandomSource {
-  let state = seed >>> 0
-
-  return {
-    next() {
-      state += 0x6d2b79f5
-      let value = state
-      value = Math.imul(value ^ (value >>> 15), value | 1)
-      value ^= value + Math.imul(value ^ (value >>> 7), value | 61)
-      return ((value ^ (value >>> 14)) >>> 0) / 4294967296
-    },
-  }
 }
 
 const REALISTIC_TRUE_WEIGHTS: Record<AnswerValue, number> = {
@@ -78,38 +82,66 @@ const REALISTIC_FALSE_WEIGHTS: Record<AnswerValue, number> = {
   NO: 0.7,
 }
 
-function sampleAnswer(
-  targetKnowledge: EntityAttributeKnowledge | undefined,
-  profile: SimulationAnswerProfile,
+function createSeededRandom(seed: number): RandomSource {
+  let state = seed >>> 0
+
+  return {
+    next() {
+      state += 0x6d2b79f5
+      let value = state
+
+      value = Math.imul(value ^ (value >>> 15), value | 1)
+      value ^= value + Math.imul(value ^ (value >>> 7), value | 61)
+
+      return ((value ^ (value >>> 14)) >>> 0) / 4294967296
+    },
+  }
+}
+
+function sampleWeightedAnswer(
+  weights: Record<AnswerValue, number>,
   random: RandomSource,
 ): AnswerValue {
-  if (!targetKnowledge) {
-    return 'UNKNOWN'
-  }
+  const total = ANSWER_VALUES.reduce((sum, answer) => sum + weights[answer], 0)
 
-  if (profile === 'EXACT') {
-    return targetKnowledge.value ? 'YES' : 'NO'
-  }
-
-  const weights = targetKnowledge.value
-    ? REALISTIC_TRUE_WEIGHTS
-    : REALISTIC_FALSE_WEIGHTS
-
-  const roll = random.next()
+  const target = random.next() * total
   let cumulative = 0
 
   for (const answer of ANSWER_VALUES) {
     cumulative += weights[answer]
 
-    if (roll < cumulative) {
+    if (target < cumulative) {
       return answer
     }
   }
 
-  return 'NO'
+  return ANSWER_VALUES[ANSWER_VALUES.length - 1]
+}
+
+function sampleAnswer(
+  knowledge: SimulationKnowledge,
+  profile: SimulationAnswerProfile,
+  random: RandomSource,
+): AnswerValue {
+  if (profile === 'EXACT') {
+    return knowledge?.value === true ? 'YES' : 'NO'
+  }
+
+  if (!knowledge || knowledge.confidence <= 0) {
+    return 'UNKNOWN'
+  }
+
+  return sampleWeightedAnswer(
+    knowledge.value ? REALISTIC_TRUE_WEIGHTS : REALISTIC_FALSE_WEIGHTS,
+    random,
+  )
 }
 
 function calculateEntropy(candidates: Candidate[]): number {
+  if (candidates.length <= 1) {
+    return 0
+  }
+
   const confidences = calculateCandidateConfidences(candidates)
 
   return confidences.reduce((entropy, candidate) => {
@@ -153,6 +185,11 @@ export function runSimulation(
     throw new Error('Simulation requires at least one question')
   }
 
+  const engineConfig: SimulationEngineConfig = {
+    ...DEFAULT_SIMULATION_ENGINE_CONFIG,
+    ...config.engineConfig,
+  }
+
   const random = createSeededRandom(config.seed)
   const maxSafetySteps = config.maxSafetySteps ?? 100
   const questionById = new Map(
@@ -160,6 +197,7 @@ export function runSimulation(
   )
 
   const questionCounts: number[] = []
+
   let correctGames = 0
   let wrongGames = 0
   let questionLimitGames = 0
@@ -167,6 +205,8 @@ export function runSimulation(
   let noQuestionsRemainingGames = 0
   let totalQuestionEffectiveness = 0
   let totalFinalConfidence = 0
+  let totalFinalCandidateCount = 0
+  let totalFinalConfidenceGap = 0
 
   const perEntity = new Map<
     string,
@@ -194,9 +234,14 @@ export function runSimulation(
       const context: GameEngineContext = {
         questions,
         knowledgeByEntityAttribute,
+        terminationConfig: engineConfig,
       }
 
-      let state = createGame(candidateIds, context, `simulation-${config.seed}`)
+      let state = createGame(
+        candidateIds,
+        context,
+        `simulation-${config.seed}-${targetEntityId}-${gameNumber}`,
+      )
 
       let questionEffectiveness = 0
       let safetySteps = 0
@@ -248,18 +293,23 @@ export function runSimulation(
       const correct = guessedEntityId === targetEntityId
 
       questionCounts.push(state.questionsAsked)
+
       totalQuestionEffectiveness +=
         state.questionsAsked > 0
           ? questionEffectiveness / state.questionsAsked
           : 0
 
-      const finalConfidence =
-        state.rankedCandidates.length > 0
-          ? (calculateCandidateConfidences(state.rankedCandidates)[0]
-              ?.confidence ?? 0)
-          : 0
+      const finalConfidences = calculateCandidateConfidences(
+        state.rankedCandidates,
+      )
+
+      const finalConfidence = finalConfidences[0]?.confidence ?? 0
+      const secondConfidence = finalConfidences[1]?.confidence ?? 0
+      const finalConfidenceGap = finalConfidence - secondConfidence
 
       totalFinalConfidence += finalConfidence
+      totalFinalCandidateCount += state.rankedCandidates.length
+      totalFinalConfidenceGap += finalConfidenceGap
 
       const entityMetrics = perEntity.get(targetEntityId)
 
@@ -277,49 +327,63 @@ export function runSimulation(
         wrongGames += 1
       }
 
-      if (state.terminationReason === 'QUESTION_LIMIT') {
-        questionLimitGames += 1
-      }
+      switch (state.terminationReason) {
+        case 'QUESTION_LIMIT':
+          questionLimitGames += 1
+          break
 
-      if (state.terminationReason === 'EARLY_GUESS') {
-        earlyGuessGames += 1
-      }
+        case 'EARLY_GUESS':
+          earlyGuessGames += 1
+          break
 
-      if (state.terminationReason === 'NO_QUESTIONS_REMAINING') {
-        noQuestionsRemainingGames += 1
+        case 'NO_QUESTIONS_REMAINING':
+          noQuestionsRemainingGames += 1
+          break
       }
     }
   }
 
   const totalGames = candidateIds.length * config.gamesPerEntity
 
+  const perEntityReport: Record<string, SimulationEntityMetrics> = {}
+
+  for (const [entityId, metrics] of perEntity) {
+    perEntityReport[entityId] = {
+      games: metrics.games,
+      correct: metrics.correct,
+      accuracy: metrics.games === 0 ? 0 : metrics.correct / metrics.games,
+      averageQuestions:
+        metrics.games === 0 ? 0 : metrics.questions / metrics.games,
+    }
+  }
+
   return {
     seed: config.seed,
     answerProfile: config.answerProfile,
+    engineConfig,
     totalGames,
     correctGames,
     wrongGames,
-    accuracy: correctGames / totalGames,
+    accuracy: totalGames === 0 ? 0 : correctGames / totalGames,
     averageQuestions:
-      questionCounts.reduce((sum, count) => sum + count, 0) / totalGames,
+      totalGames === 0
+        ? 0
+        : questionCounts.reduce((sum, count) => sum + count, 0) / totalGames,
     medianQuestions: median(questionCounts),
-    maxQuestions: Math.max(...questionCounts),
-    questionLimitRate: questionLimitGames / totalGames,
-    earlyGuessRate: earlyGuessGames / totalGames,
-    noQuestionsRemainingRate: noQuestionsRemainingGames / totalGames,
-    wrongGuessRate: wrongGames / totalGames,
-    averageFinalConfidence: totalFinalConfidence / totalGames,
-    averageQuestionEffectiveness: totalQuestionEffectiveness / totalGames,
-    perEntity: Object.fromEntries(
-      [...perEntity.entries()].map(([entityId, metrics]) => [
-        entityId,
-        {
-          games: metrics.games,
-          correct: metrics.correct,
-          accuracy: metrics.correct / metrics.games,
-          averageQuestions: metrics.questions / metrics.games,
-        },
-      ]),
-    ),
+    maxQuestions: questionCounts.length === 0 ? 0 : Math.max(...questionCounts),
+    questionLimitRate: totalGames === 0 ? 0 : questionLimitGames / totalGames,
+    earlyGuessRate: totalGames === 0 ? 0 : earlyGuessGames / totalGames,
+    noQuestionsRemainingRate:
+      totalGames === 0 ? 0 : noQuestionsRemainingGames / totalGames,
+    wrongGuessRate: totalGames === 0 ? 0 : wrongGames / totalGames,
+    averageFinalConfidence:
+      totalGames === 0 ? 0 : totalFinalConfidence / totalGames,
+    averageQuestionEffectiveness:
+      totalGames === 0 ? 0 : totalQuestionEffectiveness / totalGames,
+    averageFinalCandidateCount:
+      totalGames === 0 ? 0 : totalFinalCandidateCount / totalGames,
+    averageFinalConfidenceGap:
+      totalGames === 0 ? 0 : totalFinalConfidenceGap / totalGames,
+    perEntity: perEntityReport,
   }
 }
