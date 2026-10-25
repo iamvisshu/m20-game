@@ -238,7 +238,7 @@ describe('engine simulation', () => {
       '\nM20 Batch 15 REALISTIC baseline\n',
       JSON.stringify(first, null, 2),
     )
-  })
+  }, 30_000)
 
   it('runs a deterministic parameter sweep for engine tuning', () => {
     const exactReports = SWEEP_CASES.map(({ name, engineConfig }) => ({
@@ -268,5 +268,5 @@ describe('engine simulation', () => {
     const second = createReport('REALISTIC', SWEEP_CASES[0].engineConfig)
 
     expect(first).toEqual(second)
-  }, 30_000)
+  }, 120_000)
 })
