@@ -84,6 +84,25 @@ describe('gameService integration', () => {
     expect(nextGame.state.askedQuestionIds).toContain(questionId)
   })
 
+  it('propagates repository errors when recording an answer', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to record answer')
+
+    vi.mocked(repository.recordAnswer).mockRejectedValue(repositoryError)
+
+    const activeGame = await startGame(repository)
+
+    await expect(
+      answerCurrentQuestion(activeGame, repository, 'YES'),
+    ).rejects.toThrow('Failed to record answer')
+
+    expect(repository.recordAnswer).toHaveBeenCalledWith(
+      gameId,
+      questionId,
+      'YES',
+    )
+  })
+
   it('finalizes a correct game and applies learning', async () => {
     const repository = createRepository()
     const activeGame = await startGame(repository)
