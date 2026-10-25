@@ -151,6 +151,56 @@ describe('gameService integration', () => {
     expect(finalState.guessedEntityId).toBe(entityId)
   })
 
+  it('propagates repository errors when finalizing a game', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to finalize game')
+
+    vi.mocked(repository.finalizeGame).mockRejectedValue(repositoryError)
+
+    const activeGame = await startGame(repository)
+
+    const gameReadyToFinalize = {
+      ...activeGame,
+      state: {
+        ...activeGame.state,
+        guessedEntityId: entityId,
+      },
+    }
+
+    await expect(
+      finalizeCurrentGame(gameReadyToFinalize, repository, true),
+    ).rejects.toThrow('Failed to finalize game')
+
+    expect(repository.finalizeGame).toHaveBeenCalledWith(gameId, entityId, true)
+
+    expect(repository.applyLearning).not.toHaveBeenCalled()
+  })
+
+  it('propagates repository errors when applying learning', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to apply learning')
+
+    vi.mocked(repository.applyLearning).mockRejectedValue(repositoryError)
+
+    const activeGame = await startGame(repository)
+
+    const gameReadyToFinalize = {
+      ...activeGame,
+      state: {
+        ...activeGame.state,
+        guessedEntityId: entityId,
+      },
+    }
+
+    await expect(
+      finalizeCurrentGame(gameReadyToFinalize, repository, true),
+    ).rejects.toThrow('Failed to apply learning')
+
+    expect(repository.finalizeGame).toHaveBeenCalledWith(gameId, entityId, true)
+
+    expect(repository.applyLearning).toHaveBeenCalledWith(gameId)
+  })
+
   it('finalizes a wrong game without applying learning', async () => {
     const repository = createRepository()
     const activeGame = await startGame(repository)
