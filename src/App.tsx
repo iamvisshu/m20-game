@@ -52,7 +52,9 @@ function App() {
     null,
   )
   const [game, setGame] = useState<ActiveGame | null>(null)
+  const [startingCategoryId, setStartingCategoryId] = useState<string | null>(null)
   const [answering, setAnswering] = useState(false)
+  const [pendingAnswer, setPendingAnswer] = useState<AnswerValue | null>(null)
   const [finalizing, setFinalizing] = useState(false)
   const [resultFinalized, setResultFinalized] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -103,6 +105,9 @@ function App() {
   }, [])
 
   const handleCategorySelect = useCallback(async (categoryId?: string) => {
+    const loadingCategoryId = categoryId ?? '__all__'
+
+    setStartingCategoryId(loadingCategoryId)
     setError(null)
     setGame(null)
     setResultFinalized(false)
@@ -116,6 +121,8 @@ function App() {
       setGame(activeGame)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to start game')
+    } finally {
+      setStartingCategoryId(null)
     }
   }, [])
 
@@ -131,6 +138,7 @@ function App() {
     }
 
     setAnswering(true)
+    setPendingAnswer(answer)
     setError(null)
 
     try {
@@ -145,6 +153,7 @@ function App() {
       setError(err instanceof Error ? err.message : 'Failed to process answer')
     } finally {
       setAnswering(false)
+      setPendingAnswer(null)
     }
   }
 
@@ -256,10 +265,15 @@ function App() {
             className="category-list"
             role="group"
             aria-label="Choose a category"
+            aria-busy={startingCategoryId !== null}
           >
             <button
-              className="category-card category-card--all"
+              className={`category-card category-card--all ${
+                startingCategoryId === '__all__' ? 'category-card--loading' : ''
+              }`}
               type="button"
+              disabled={startingCategoryId !== null}
+              aria-busy={startingCategoryId === '__all__'}
               onClick={() => void handleCategorySelect()}
             >
               <span className="category-card__icon" aria-hidden="true">
@@ -275,37 +289,56 @@ function App() {
               </span>
 
               <span className="category-card__arrow" aria-hidden="true">
-                →
+                {startingCategoryId === '__all__' ? (
+                  <span className="small-spinner" />
+                ) : (
+                  '→'
+                )}
               </span>
             </button>
 
-            {categories.map((category) => (
-              <button
-                className="category-card"
-                key={category.id}
-                type="button"
-                onClick={() => void handleCategorySelect(category.id)}
-              >
-                <span className="category-card__icon" aria-hidden="true">
-                  {getCategoryIcon(category.name)}
-                </span>
+            {categories.map((category) => {
+              const isLoading = startingCategoryId === category.id
 
-                <span className="category-card__content">
-                  <span className="category-card__name">{category.name}</span>
+              return (
+                <button
+                  className={`category-card ${
+                    isLoading ? 'category-card--loading' : ''
+                  }`}
+                  key={category.id}
+                  type="button"
+                  disabled={startingCategoryId !== null}
+                  aria-busy={isLoading}
+                  onClick={() => void handleCategorySelect(category.id)}
+                >
+                  <span className="category-card__icon" aria-hidden="true">
+                    {getCategoryIcon(category.name)}
+                  </span>
 
-                  {category.description && (
-                    <span className="category-card__description">
-                      {category.description}
-                    </span>
-                  )}
-                </span>
+                  <span className="category-card__content">
+                    <span className="category-card__name">{category.name}</span>
 
-                <span className="category-card__arrow" aria-hidden="true">
-                  →
-                </span>
-              </button>
-            ))}
+                    {category.description && (
+                      <span className="category-card__description">
+                        {category.description}
+                      </span>
+                    )}
+                  </span>
+
+                  <span className="category-card__arrow" aria-hidden="true">
+                    {isLoading ? <span className="small-spinner" /> : '→'}
+                  </span>
+                </button>
+              )
+            })}
           </div>
+
+          {startingCategoryId !== null && (
+            <div className="category-loading-status" role="status" aria-live="polite">
+              <span className="small-spinner" aria-hidden="true" />
+              Starting your game…
+            </div>
+          )}
 
           <footer className="game-footer">
             <span>M20</span>
@@ -497,27 +530,34 @@ function App() {
               aria-label="Choose your answer"
               role="group"
             >
-              {ANSWERS.map((answer) => (
-                <button
-                  className="answer-button"
-                  key={answer.value}
-                  type="button"
-                  disabled={answering}
-                  onClick={() => void handleAnswer(answer.value)}
-                >
-                  <span className="answer-button__content">
-                    <span className="answer-button__label">{answer.label}</span>
+              {ANSWERS.map((answer) => {
+                const isPending = pendingAnswer === answer.value
 
-                    <span className="answer-button__description">
-                      {answer.description}
+                return (
+                  <button
+                    className={`answer-button ${
+                      isPending ? 'answer-button--loading' : ''
+                    }`}
+                    key={answer.value}
+                    type="button"
+                    disabled={answering}
+                    aria-busy={isPending}
+                    onClick={() => void handleAnswer(answer.value)}
+                  >
+                    <span className="answer-button__content">
+                      <span className="answer-button__label">{answer.label}</span>
+
+                      <span className="answer-button__description">
+                        {isPending ? 'Processing your answer…' : answer.description}
+                      </span>
                     </span>
-                  </span>
 
-                  <span className="answer-button__arrow" aria-hidden="true">
-                    →
-                  </span>
-                </button>
-              ))}
+                    <span className="answer-button__arrow" aria-hidden="true">
+                      {isPending ? <span className="small-spinner" /> : '→'}
+                    </span>
+                  </button>
+                )
+              })}
             </div>
 
             <div className="interaction-status" aria-live="polite">
