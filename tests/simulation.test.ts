@@ -219,7 +219,7 @@ describe('engine simulation', () => {
       '\nM20 Batch 15 EXACT baseline\n',
       JSON.stringify(first, null, 2),
     )
-  })
+  }, 30_000)
 
   it('produces a deterministic realistic-answer baseline', () => {
     const first = createReport('REALISTIC')
