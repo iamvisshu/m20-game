@@ -5,244 +5,112 @@
 </p>
 
 <p align="center">
-  An educational 20 Questions-style guessing game with shared learning.
+  A 20 Questions-style guessing game powered by structured knowledge, adaptive questioning, and shared learning.
 </p>
 
 <p align="center">
-  <a href="https://m20quiz.vercel.app/">Live Demo</a>
+  <a href="https://m20quiz.vercel.app/">🎮 Play M20</a>
   ·
-  <a href="https://github.com/iamvisshu/m20-game">GitHub Repository</a>
+  <a href="https://github.com/iamvisshu/m20-game">💻 Source Code</a>
 </p>
 
 ---
 
-# 📌 PROJECT OVERVIEW
+## 🎮 What is M20?
 
-M20 is a browser-based **20 Questions-style guessing game**.
+**M20** is a browser-based 20 Questions-style guessing game.
 
-Think of something.
+Think of something, choose a category, and answer a series of questions using five confidence-aware responses:
 
-M20 asks questions.
+```text
+YES
+PROBABLY YES
+UNKNOWN
+PROBABLY NO
+NO
+```
 
-You answer using five confidence-aware answer choices.
+M20 uses those answers to narrow the candidate set, select useful questions, and eventually make a guess.
 
-M20 narrows down the possibilities and attempts to guess what you were thinking of.
+The system also records anonymous gameplay evidence to improve its shared knowledge model over time.
 
-The system also uses anonymous gameplay evidence to improve its shared knowledge model over time.
+### 🌐 Live Demo
 
-### Live Application
-
-🌐 **https://m20quiz.vercel.app/**
-
-### Repository
-
-💻 **https://github.com/iamvisshu/m20-game**
-
----
-
-# 🎓 EDUCATIONAL PURPOSE
-
-M20 is designed as an educational project demonstrating how a guessing system can combine:
-
-- structured knowledge
-- candidate scoring
-- information gain
-- question selection
-- confidence-aware answers
-- evidence-based learning
-- concurrent database updates
-- browser application architecture
-- serverless database infrastructure
-
-The goal is not simply to create a guessing game.
-
-The goal is to demonstrate how a small interactive application can evolve from a static knowledge model into a continuously improving shared system.
+**https://m20quiz.vercel.app/**
 
 ---
 
-# ✨ FEATURES
+## ✨ Features
 
 - 🎯 20 Questions-style guessing gameplay
-- 🧠 Information-gain based question selection
-- 📊 Candidate scoring
-- 🔎 Early guessing when confidence is sufficient
-- ⏱️ Maximum question limit
-- ✅ Five answer states
-    - YES
-    - PROBABLY YES
-    - UNKNOWN
-    - PROBABLY NO
-    - NO
-- 🧠 Shared learning system
-- 📚 Evidence-based knowledge updates
-- 🛡️ Database-level concurrency protection
-- 🔐 Row Level Security
-- 👤 Anonymous gameplay
+- 🧠 Adaptive question selection using information-gain principles
+- 📊 Candidate scoring and confidence estimation
+- 🎲 Five-state answers instead of simple Yes/No
+- ⚡ Early guessing when confidence is high
+- 🔢 Configurable maximum question limit
 - 🗂️ Category-based gameplay
-- 🏷️ Entity aliases
-- 📱 Responsive UI
-- ♿ Keyboard accessibility
-- 🚀 Vercel production deployment
-- 🧪 Unit, integration, E2E and simulation testing
-- 🔧 TypeScript strict mode
-- ⚡ Vite production build
+- 🏷️ Entity aliases and normalized resolution
+- 🧠 Evidence-based shared learning
+- 🔐 PostgreSQL Row Level Security
+- 🛡️ Secured database RPC boundaries
+- 👤 Anonymous gameplay
+- 📱 Responsive interface
+- ♿ Keyboard-accessible interaction
+- 🧪 Unit, integration, E2E and simulation tests
+- 🚀 Vercel deployment
+- 🔎 Technical SEO and structured metadata
+- 📱 Custom favicon and web-app branding
 
 ---
 
-# 🧰 TECHNOLOGY STACK
+## 🧠 How M20 Works
 
-## Frontend
-
-- React
-- TypeScript
-- Vite
-- CSS
-
-## Backend Infrastructure
-
-- Supabase
-- PostgreSQL
-- Supabase Auth
-- PostgreSQL Row Level Security
-- PostgreSQL RPC functions
-
-## Development
-
-- Node.js
-- npm
-- Git
-- GitHub
-- GitHub Actions
-
-## Deployment
-
-- Vercel
-
----
-
-# 🏗️ PROJECT ARCHITECTURE
-
-M20 follows a layered architecture so that the game engine remains independent from the UI and database implementation.
+At a high level, a game follows this flow:
 
 ```text
-                         ┌──────────────────────┐
-                         │      React UI        │
-                         │   Browser Client     │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │    Game Service      │
-                         │ Application Layer    │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │     Game Engine      │
-                         │ Candidate Scoring    │
-                         │ Question Selection   │
-                         │ Termination Logic    │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │    Repository Layer  │
-                         │ Data Access Contract  │
-                         └──────────┬───────────┘
-                                    │
-                                    ▼
-                         ┌──────────────────────┐
-                         │       Supabase       │
-                         │ PostgreSQL + Auth    │
-                         │ RLS + RPC            │
-                         └──────────────────────┘
+Player
+  │
+  ▼
+Choose Category
+  │
+  ▼
+Start Game
+  │
+  ▼
+Candidate Entities
+  │
+  ▼
+Select Useful Question
+  │
+  ▼
+Player Answers
+  │
+  ▼
+Update Candidate Scores
+  │
+  ├───────────────┐
+  │               │
+  ▼               ▼
+High Confidence   Continue
+  │               │
+  ▼               ▼
+Make Guess     Select Next Question
+  │               │
+  └───────┬───────┘
+          ▼
+        Result
+          │
+          ▼
+    Learning Evidence
 ```
+
+The game engine is intentionally separated from the React UI and database layer so that its logic can be tested independently.
 
 ---
 
-# 📂 PROJECT STRUCTURE
+## 🧩 Game Engine
 
-```text
-m20-game
-│
-├── 📂 .github/
-│   └── 📂 workflows/
-│       └── CI workflow
-│
-├── 📂 docs/
-│   └── Project documentation
-│
-├── 📂 public/
-│   ├── favicon.ico
-│   ├── favicon-16x16.png
-│   ├── favicon-32x32.png
-│   ├── android-chrome-192x192.png
-│   ├── android-chrome-512x512.png
-│   ├── apple-touch-icon.png
-│   ├── robots.txt
-│   ├── sitemap.xml
-│   └── site.webmanifest
-│
-├── 📂 scripts/
-│   └── Development and simulation scripts
-│
-├── 📂 src/
-│   │
-│   ├── 📂 app/
-│   │   └── Application shell
-│   │
-│   ├── 📂 components/
-│   │   └── Reusable UI components
-│   │
-│   ├── 📂 domain/
-│   │   ├── Entity definitions
-│   │   ├── Category definitions
-│   │   └── Entity resolution
-│   │
-│   ├── 📂 engine/
-│   │   ├── Candidate scoring
-│   │   ├── Question selection
-│   │   ├── Termination logic
-│   │   └── Game simulation
-│   │
-│   ├── 📂 features/
-│   │   └── 📂 game/
-│   │       └── Game-specific application logic
-│   │
-│   ├── 📂 lib/
-│   │   ├── Authentication
-│   │   └── Shared utilities
-│   │
-│   ├── 📂 repositories/
-│   │   ├── Repository interfaces
-│   │   └── Supabase implementation
-│   │
-│   └── 📂 styles/
-│       └── Application styling
-│
-├── 📂 supabase/
-│   └── 📂 migrations/
-│       └── Database schema, security, seed and learning migrations
-│
-├── 📂 tests/
-│   └── Unit, integration, E2E and simulation tests
-│
-├── 📄 .env.example
-├── 📄 index.html
-├── 📄 LICENSE
-├── 📄 llms.txt
-├── 📄 package.json
-├── 📄 README.md
-└── 📄 vite.config.ts
-```
-
----
-
-# 🧠 GAME ENGINE
-
-The M20 game engine operates on a structured knowledge model.
-
-The core concepts are:
+M20 uses a structured knowledge model built around:
 
 ```text
 Entity
@@ -254,39 +122,19 @@ Confidence
 Candidate
 ```
 
-For example:
+Questions are associated with attributes, while entities contain evidence about those attributes.
 
-```text
-Entity:     Elephant
+The engine uses the current candidate set and available questions to select questions that are expected to provide useful information.
 
-Attributes:
-    has_fur       = false
-    has_tail      = true
-    is_animal     = true
-    lives_in_water = false
-```
+Candidate scores are updated after each answer.
 
-Questions are connected to attributes.
-
-The engine uses the current candidate set and available attributes to select useful questions.
+When the engine has sufficient confidence, it can make an early guess. Otherwise, it continues until the configured question limit is reached.
 
 ---
 
-# 🎲 ANSWER MODEL
+## 🎲 Five-State Answer Model
 
-M20 intentionally uses five answer states instead of only Yes/No.
-
-```text
-YES
-PROBABLY YES
-UNKNOWN
-PROBABLY NO
-NO
-```
-
-This allows the engine to represent uncertainty instead of forcing every answer into a binary decision.
-
-Conceptually:
+Instead of forcing players into binary answers, M20 supports uncertainty:
 
 ```text
 YES             → strong positive evidence
@@ -296,198 +144,196 @@ PROBABLY NO     → moderate negative evidence
 NO              → strong negative evidence
 ```
 
-This evidence is used by the candidate-scoring system.
+This allows the engine to work with imperfect human answers rather than treating every response as absolute truth.
 
 ---
 
-# 📊 QUESTION SELECTION
+## 🧠 Shared Learning
 
-M20 uses information-gain principles to select questions.
+M20 uses anonymous gameplay evidence to improve its shared knowledge model.
 
-A useful question should divide the remaining candidates effectively.
-
-The engine considers the expected usefulness of available questions rather than simply asking questions in a fixed order.
-
-This allows the system to adapt its questioning based on previous answers.
-
----
-
-# 🏆 CANDIDATE SCORING
-
-After every answer, M20 updates candidate scores.
-
-Candidates that better match the accumulated evidence receive higher scores.
-
-The engine tracks:
-
-- candidate score
-- confidence
-- evidence
-- score gap
-- question count
-
-M20 can make an early guess when the confidence threshold is sufficiently high.
-
-Otherwise, it continues asking questions until the configured maximum is reached.
-
----
-
-# 🧠 SHARED LEARNING SYSTEM
-
-M20 uses anonymous gameplay evidence to improve the shared knowledge model.
-
-The learning architecture is based on:
+The learning flow is:
 
 ```text
 Gameplay
-    ↓
+   ↓
 Answer
-    ↓
+   ↓
 Evidence
-    ↓
+   ↓
 Learning Update
-    ↓
-Entity / Attribute Statistics
-    ↓
-Improved Future Gameplay
+   ↓
+Knowledge Statistics
+   ↓
+Improved Future Games
 ```
 
-A single incorrect answer must not immediately corrupt the global knowledge model.
+Learning is evidence-based rather than replacing knowledge immediately after a single answer.
 
-Learning updates therefore use evidence and confidence rather than blindly replacing existing knowledge.
+This helps prevent one incorrect response from disproportionately changing the global knowledge model.
 
 ---
 
-# 🗄️ DATABASE
+## 🏗️ Architecture
 
-M20 uses PostgreSQL through Supabase.
-
-The database contains several logical areas.
-
-## Reference Data
+M20 follows a layered architecture:
 
 ```text
-categories
-entities
-entity_categories
-attributes
-entity_attributes
-question_families
-questions
-entity_aliases
+┌──────────────────────────┐
+│       React UI           │
+│      Browser Client      │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│      Game Service        │
+│    Application Layer     │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│       Game Engine        │
+│                          │
+│ Candidate Scoring        │
+│ Question Selection       │
+│ Termination Logic        │
+│ Simulation               │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│    Repository Layer      │
+│      Data Access         │
+└────────────┬─────────────┘
+             │
+             ▼
+┌──────────────────────────┐
+│        Supabase          │
+│ PostgreSQL · Auth · RLS  │
+│          RPC             │
+└──────────────────────────┘
 ```
 
-## Gameplay
+The main architectural goal is to keep the **game engine independent of React and Supabase**.
+
+---
+
+## 🧰 Technology Stack
+
+| Layer                  | Technology              |
+|------------------------|-------------------------|
+| UI                     | React                   |
+| Language               | TypeScript              |
+| Build Tool             | Vite                    |
+| Styling                | CSS                     |
+| Database               | PostgreSQL              |
+| Backend Infrastructure | Supabase                |
+| Authentication         | Supabase Anonymous Auth |
+| Database Security      | PostgreSQL RLS          |
+| Database API           | PostgreSQL RPC          |
+| Testing                | Vitest + Playwright     |
+| CI                     | GitHub Actions          |
+| Hosting                | Vercel                  |
+
+---
+
+## 📂 Project Structure
+
+The repository is organized around the application layers rather than exposing every file.
 
 ```text
-games
-game_questions
-game_answers
+m20-game/
+│
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+│
+├── public/
+│   ├── favicon.ico
+│   ├── favicon-16x16.png
+│   ├── favicon-32x32.png
+│   ├── android-chrome-192x192.png
+│   ├── android-chrome-512x512.png
+│   ├── apple-touch-icon.png
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   └── site.webmanifest
+│
+├── src/
+│   ├── domain/              # Core domain models and entity resolution
+│   ├── engine/              # Scoring, question selection and game logic
+│   ├── features/game/       # Game application logic
+│   ├── lib/                 # Supabase, auth and shared utilities
+│   ├── repositories/        # Data-access abstractions and implementation
+│   ├── components/          # Reusable UI components
+│   ├── App.tsx              # Main application
+│   └── App.css              # Application styling
+│
+├── supabase/
+│   └── migrations/          # Database schema, security and data migrations
+│
+├── tests/                   # Unit, integration, E2E and simulation tests
+│
+├── .env.example             # Environment variable template
+├── index.html               # HTML shell and SEO metadata
+├── LICENSE                  # MIT License
+├── llms.txt                 # AI-readable project information
+├── package.json
+├── README.md
+└── vite.config.ts
 ```
 
-## Learning
+---
 
-```text
-evidence
-entity_attribute_stats
-knowledge_history
-```
+## 🗂️ Categories
+
+Players can currently choose from:
+
+- **Everything**
+- **Animals**
+- **Everyday Objects**
+- **Food & Drinks**
+- **Household**
+- **Technology**
+- **Vehicles**
+
+Selecting a category reduces the candidate search space and can help M20 reach a useful guess faster.
 
 ---
 
-# 🔐 SECURITY
+## 🔐 Security & Privacy
 
-M20 uses PostgreSQL Row Level Security (RLS).
+M20 is designed around a minimal-data model.
 
-The application does not expose privileged database credentials to the browser.
+Players do not need to provide:
 
-Gameplay mutations are handled through secured database RPC functions.
+- Name
+- Email
+- Password
+- Personal profile
+- Precise location
 
-The general security model is:
+Anonymous authentication provides an authenticated session without requiring a traditional account.
 
-```text
-Browser
-   │
-   │ authenticated anonymous session
-   ▼
-Supabase
-   │
-   ├── RLS
-   │
-   ├── RPC authorization
-   │
-   └── PostgreSQL constraints
-```
+Database security is enforced through PostgreSQL rather than relying only on frontend restrictions.
 
-Direct unauthorized mutation of protected gameplay and learning tables is prevented at the database layer.
+The application uses:
+
+- Row Level Security
+- Protected database RPC functions
+- Database constraints
+- Authenticated access controls
+- No service-role key in the browser
 
 ---
 
-# 👤 ANONYMOUS GAMEPLAY
+## 🧪 Testing
 
-M20 does not require users to create a traditional account.
+M20 uses multiple testing layers.
 
-The application uses anonymous authentication so that gameplay can still be associated with an authenticated Supabase session without requiring:
+### Unit Tests
 
-- name
-- email
-- password
-- player profile
-
-The project follows a minimal-data philosophy.
-
----
-
-# 🗂️ CATEGORIES
-
-Players can start a game using:
-
-- Everything
-- Animals
-- Everyday Objects
-- Food & Drinks
-- Household
-- Technology
-- Vehicles
-
-Category selection reduces the candidate search space and helps M20 reach a guess faster.
-
----
-
-# 🏷️ ENTITY ALIASES
-
-M20 supports aliases for entities.
-
-For example:
-
-```text
-Television
-    ├── TV
-    └── Television Set
-
-Refrigerator
-    └── Fridge
-
-Motorcycle
-    └── Motorbike
-
-Aeroplane
-    └── Airplane
-```
-
-Aliases are normalized before resolution.
-
-This allows different names for the same concept to resolve to the same canonical entity.
-
----
-
-# 🧪 TESTING
-
-M20 includes multiple levels of automated testing.
-
-## Unit Tests
-
-Used for isolated engine and domain logic.
+Core domain and game-engine logic is tested independently.
 
 Examples include:
 
@@ -495,118 +341,71 @@ Examples include:
 - question selection
 - termination logic
 - entity resolution
+- game engine behavior
 
-## Integration Tests
+### Integration Tests
 
-Validate interactions between application components and the Supabase game API.
+Validate application interaction with the hosted Supabase game and learning APIs.
 
-## E2E Tests
+### E2E Tests
 
-Validate real gameplay flows.
+Validate browser-level gameplay flows.
 
-## Simulation Tests
+### Simulation Tests
 
-Large numbers of simulated games are used to measure:
+The deterministic game engine can also be evaluated through automated simulations.
 
-- accuracy
-- average questions
-- median questions
-- maximum questions
-- early guessing
-- unanswered games
-- incorrect guesses
-- confidence
-- score gap
-- effectiveness
-
-This helps evaluate the engine using measurable results rather than only manual testing.
+This makes it possible to measure gameplay behavior using repeatable scenarios instead of relying only on manual testing.
 
 ---
 
-# 📈 SIMULATION BASELINE
+## 🚀 Local Development
 
-The production engine has been evaluated using automated simulations.
+### Requirements
 
-The baseline configuration uses:
+- Node.js
+- npm
+- Git
+- A modern web browser
+- Supabase project for database-backed development
 
-```text
-Maximum Questions: 20
-Confidence Threshold: 0.65
-Score Gap Threshold: 0.20
+### 1. Clone the repository
+
+```console
+git clone https://github.com/iamvisshu/m20-game.git
+cd m20-game
 ```
 
-The simulation suite includes both:
+### 2. Install dependencies
 
-```text
-EXACT
+```console
+npm install
 ```
 
-and
+### 3. Configure environment variables
 
-```text
-REALISTIC
-```
-
-answer modes.
-
-The simulation system is intentionally kept separate from the browser UI so the game engine can be evaluated independently.
-
----
-
-# ⚙️ CONFIGURATION
-
-Create the local environment file:
+Create `.env` from the example:
 
 ```console
 cp .env.example .env
 ```
 
-Required Supabase configuration:
+Set:
 
-```text
+```env
 VITE_SUPABASE_URL=
 VITE_SUPABASE_ANON_KEY=
 ```
 
 Never place a Supabase service-role key in frontend environment variables.
 
----
-
-# 🛠️ REQUIRED APPLICATIONS
-
-1. Node.js
-2. npm
-3. Git
-4. IntelliJ IDEA or another IDE
-5. GitHub Desktop
-6. Supabase CLI
-7. A modern web browser
-
-Docker is not required for normal remote Supabase development.
-
----
-
-# 🚀 LOCAL DEVELOPMENT
-
-Open IntelliJ Terminal or macOS Terminal.
-
-```console
-cd /Users/iamvisshu/Documents/GitHub/m20-game
-```
-
-Install dependencies:
-
-```console
-npm install
-```
-
-Start the development server:
+### 4. Start development server
 
 ```console
 npm run dev
 ```
 
-The application will normally be available at:
+Open:
 
 ```text
 http://localhost:5173/
@@ -614,61 +413,61 @@ http://localhost:5173/
 
 ---
 
-# 🏗️ PRODUCTION BUILD
+## 🏗️ Production Build
 
-Run:
+Create a production build with:
 
 ```console
 npm run build
 ```
 
-This performs TypeScript compilation and creates the production Vite bundle.
-
-Build output:
+The generated application is written to:
 
 ```text
 dist/
 ```
 
----
-
-# 🔍 PREVIEW PRODUCTION BUILD
-
-Run:
+Preview the production build locally:
 
 ```console
 npm run preview
 ```
 
-This serves the generated production build locally.
-
 ---
 
-# 🧪 TEST COMMANDS
+## 🧪 Testing Commands
 
-Run the project's test suite using the configured Vitest commands.
-
-Typical development workflow:
+Run the standard test suite:
 
 ```console
-npm run test
+npm test
 ```
 
-For a production validation:
+Run linting:
+
+```console
+npm run lint
+```
+
+Run formatting:
+
+```console
+npm run format
+```
+
+Create a production build:
 
 ```console
 npm run build
 ```
 
-The repository also contains integration, E2E and simulation test configuration.
+The repository also contains dedicated integration, E2E and simulation test configuration.
 
 ---
 
-# 🗄️ SUPABASE DEVELOPMENT
+## 🗄️ Supabase
 
-The Supabase project is linked to the M20 repository.
-
-Supabase migrations are stored in:
+Database migrations are stored in:
 
 ```text
 supabase/migrations/
@@ -686,19 +485,19 @@ Push migrations:
 npx supabase db push
 ```
 
-The remote Supabase database is the production database infrastructure for M20.
+The production application uses the hosted Supabase project for database and authentication infrastructure.
 
 ---
 
-# 🌐 PRODUCTION DEPLOYMENT
+## 🌐 Deployment
 
-M20 is deployed using Vercel.
+M20 is deployed on Vercel.
 
-Production URL:
+### Production
 
-🌐 **https://m20quiz.vercel.app/**
+**https://m20quiz.vercel.app/**
 
-The production deployment is connected to the GitHub repository.
+The deployment is connected to the GitHub repository.
 
 The production branch is:
 
@@ -706,58 +505,44 @@ The production branch is:
 main
 ```
 
-A push to `main` triggers a new Vercel deployment.
-
----
-
-# 🔄 DEPLOYMENT FLOW
+The normal deployment flow is:
 
 ```text
-Developer
-    │
-    ▼
-Local development
-    │
-    ▼
+Local Development
+       ↓
 Tests
-    │
-    ▼
-Production build
-    │
-    ▼
-Git commit
-    │
-    ▼
-GitHub main
-    │
-    ▼
+       ↓
+Production Build
+       ↓
+Git Commit
+       ↓
+GitHub
+       ↓
 Vercel
-    │
-    ▼
-https://m20quiz.vercel.app/
+       ↓
+Production
 ```
 
 ---
 
-# 🔎 SEO
+## 🔎 SEO
 
-M20 includes basic technical SEO configuration.
+M20 includes technical SEO configuration for the production site.
 
-The HTML shell contains:
+The application provides:
 
-- page title
+- descriptive page title
 - meta description
 - canonical URL
-- robots directive
 - Open Graph metadata
-- Twitter metadata
+- social sharing metadata
 - structured data
-- sitemap
-- robots.txt
+- `robots.txt`
+- XML sitemap
 - web manifest
 - favicon declarations
 
-Canonical production URL:
+Production canonical URL:
 
 ```text
 https://m20quiz.vercel.app/
@@ -765,9 +550,9 @@ https://m20quiz.vercel.app/
 
 ---
 
-# 📱 PWA / DEVICE ICONS
+## 📱 Web & Device Branding
 
-M20 includes device-specific branding assets:
+M20 includes custom branding assets for browsers and supported devices:
 
 ```text
 favicon.ico
@@ -778,295 +563,102 @@ android-chrome-192x192.png
 android-chrome-512x512.png
 ```
 
-The project also provides:
+The project also includes:
 
 ```text
 site.webmanifest
 ```
 
-for browser and installable web-app metadata.
+for web-app metadata and supported installation experiences.
 
 ---
 
-# 🐛 DEBUG GUIDE
+## 🗺️ Roadmap
 
-## Application does not start
+Future improvements may include:
 
-Check:
+- Larger knowledge dataset
+- More categories
+- More entities and aliases
+- Improved question-selection strategies
+- More sophisticated learning algorithms
+- Expanded simulation coverage
+- Progressive Web App enhancements
+- Improved accessibility
+- Additional languages
+- Better observability and analytics
 
-```console
-node --version
-npm --version
-```
-
-Then:
-
-```console
-npm install
-npm run dev
-```
-
----
-
-## Build fails
-
-Run:
-
-```console
-npm run build
-```
-
-Read the first TypeScript or Vite error reported.
+The current production version focuses on establishing a reliable foundation for these improvements.
 
 ---
 
-## Supabase connection fails
+## 💡 Inspiration
 
-Check:
+M20 is inspired by the classic **Twenty Questions** concept and the broader category of guessing systems such as 20Q and Akinator.
 
-```text
-.env
-```
+The project has its own:
 
-and verify:
-
-```text
-VITE_SUPABASE_URL
-VITE_SUPABASE_ANON_KEY
-```
-
-Do not expose privileged Supabase credentials.
-
----
-
-## Database migration issue
-
-Check:
-
-```console
-npx supabase migration list
-```
-
-Then:
-
-```console
-npx supabase db push
-```
-
----
-
-## Production issue
-
-Check:
-
-1. Vercel deployment status
-2. Vercel deployment logs
-3. Supabase status
-4. Browser console
-5. Network requests
-6. GitHub latest commit
-
----
-
-# 📋 DATA MODEL OVERVIEW
-
-The high-level relationship is:
-
-```text
-Category
-   │
-   └── Entity
-          │
-          ├── Alias
-          │
-          └── Attribute
-                 │
-                 └── Question
-
-Gameplay
-   │
-   ├── Game
-   ├── Game Question
-   └── Game Answer
-
-Learning
-   │
-   ├── Evidence
-   ├── Entity Attribute Stats
-   └── Knowledge History
-```
-
----
-
-# 🧩 DESIGN PRINCIPLES
-
-M20 follows several architectural principles.
-
-### Separation of concerns
-
-UI, application logic, game engine and data access are separated.
-
-### Engine independence
-
-The game engine should remain independently testable without requiring the browser UI.
-
-### Evidence-based learning
-
-One answer should not automatically overwrite global knowledge.
-
-### Database-level security
-
-Security is enforced at the database layer rather than relying only on frontend restrictions.
-
-### Minimal personal data
-
-M20 does not require unnecessary personal information.
-
-### Production-minded development
-
-The project includes:
-
-- automated testing
-- CI
-- database migrations
-- security controls
-- deployment automation
-- performance checks
-- documentation
-
----
-
-# 🔮 FUTURE ROADMAP
-
-Potential future improvements include:
-
-- larger knowledge dataset
-- more entity categories
-- improved question-generation strategies
-- stronger learning algorithms
-- additional simulations
-- richer analytics
-- improved accessibility
-- progressive web application enhancements
-- additional languages
-- improved observability
-
-These are future possibilities and are not required for the current production version.
-
----
-
-# 💡 INSPIRATION
-
-M20 is inspired by:
-
-- the classic Twenty Questions game
-- 20Q-style guessing systems
-- gameplay patterns commonly associated with Akinator
-
-The implementation, branding, UI and architecture of M20 are independently developed.
+- Name
+- Branding
+- Logo
+- UI
+- Implementation
+- Architecture
+- Database design
+- Knowledge model
 
 ```text
 INSPIRATION ≠ COPY
 ```
 
-M20 uses its own:
-
-- name
-- branding
-- logo
-- UI
-- implementation
-- knowledge architecture
-- database design
+M20 is an independently developed educational project.
 
 ---
 
-# ⚖️ INTELLECTUAL PROPERTY
+## 🤝 Contributing
 
-M20's source code is released under the MIT License.
+Contributions and suggestions are welcome.
 
-Third-party assets, libraries and dependencies remain subject to their respective licenses.
-
-Do not assume that an asset found online is free to use.
-
-Where third-party attribution is required, the appropriate attribution should be retained.
-
----
-
-# 🤝 CONTRIBUTING
-
-Contributions are welcome.
-
-Before making substantial changes:
+For substantial changes:
 
 1. Open an issue describing the proposed change.
-2. Keep architectural boundaries intact.
+2. Keep the existing architectural boundaries intact.
 3. Add or update tests where appropriate.
 4. Verify the production build.
 5. Keep database changes inside Supabase migrations.
-6. Do not commit secrets.
-7. Keep the README and documentation synchronized with major architectural changes.
+6. Never commit secrets or credentials.
+7. Update documentation when major behavior or architecture changes.
 
 ---
 
-# 📌 VERSION HISTORY
+## 📄 License
 
-```text
-M20
-│
-├── Initial React + TypeScript + Vite application
-├── Domain model
-├── Game engine
-├── Candidate scoring
-├── Information-gain question selection
-├── Learning system
-├── Supabase integration
-├── Database security
-├── Automated tests
-├── Simulation framework
-├── Dataset expansion
-├── Entity aliases
-├── Category-based gameplay
-├── Responsive production UI
-├── SEO configuration
-├── Custom M20 branding
-└── Vercel production deployment
-```
+M20 is released under the **MIT License**.
+
+See [`LICENSE`](LICENSE) for the complete license text.
+
+Third-party libraries and assets remain subject to their respective licenses.
 
 ---
 
-# 👨‍💻 AUTHOR
+## 👨‍💻 Author
 
 **Vishal Vishwakarma**
 
 GitHub: [@iamvisshu](https://github.com/iamvisshu)
 
-Project: [M20](https://m20quiz.vercel.app/)
+Project: [m20-game](https://github.com/iamvisshu/m20-game)
+
+Live Demo: [m20quiz.vercel.app](https://m20quiz.vercel.app/)
 
 ---
 
-# 📄 LICENSE
+## ⭐ Support the Project
 
-M20 is released under the MIT License.
+If you find M20 interesting or useful, consider giving the repository a ⭐ on GitHub.
 
-See:
-
-```text
-LICENSE
-```
-
-for the complete license text.
-
----
-
-# ⭐ PROJECT
-
-If you find the project interesting, consider starring the repository.
-
-GitHub:
-
-https://github.com/iamvisshu/m20-game
-
-Live Demo:
-
+**🎮 Play M20:**  
 https://m20quiz.vercel.app/
+
+**💻 GitHub:**  
+https://github.com/iamvisshu/m20-game
