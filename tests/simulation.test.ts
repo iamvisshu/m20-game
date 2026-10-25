@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import type { EntityAttributeKnowledge } from '../src/domain/knowledge'
 import type { Question } from '../src/domain/question'
-import { runSimulation, type SimulationReport } from '../src/engine/simulation'
+import {
+  runSimulation,
+  type SimulationEngineConfig,
+  type SimulationReport,
+} from '../src/engine/simulation'
 
 const ATTRIBUTE_IDS = [
   'electronic',
@@ -80,12 +84,102 @@ function createKnowledge(): Map<
   return knowledge
 }
 
-function createReport(answerProfile: 'EXACT' | 'REALISTIC'): SimulationReport {
+function createReport(
+  answerProfile: 'EXACT' | 'REALISTIC',
+  engineConfig?: Partial<SimulationEngineConfig>,
+): SimulationReport {
   return runSimulation(ENTITY_IDS, QUESTIONS, createKnowledge(), {
     gamesPerEntity: 100,
     seed: 20261025,
     answerProfile,
+    engineConfig,
   })
+}
+
+interface SweepCase {
+  name: string
+  engineConfig: SimulationEngineConfig
+}
+
+const SWEEP_CASES: SweepCase[] = [
+  {
+    name: 'baseline',
+    engineConfig: {
+      maxQuestions: 20,
+      minGuessConfidence: 0.65,
+      minGuessGap: 0.2,
+    },
+  },
+  {
+    name: 'more_confident',
+    engineConfig: {
+      maxQuestions: 20,
+      minGuessConfidence: 0.75,
+      minGuessGap: 0.25,
+    },
+  },
+  {
+    name: 'less_confident',
+    engineConfig: {
+      maxQuestions: 20,
+      minGuessConfidence: 0.55,
+      minGuessGap: 0.15,
+    },
+  },
+  {
+    name: 'larger_gap',
+    engineConfig: {
+      maxQuestions: 20,
+      minGuessConfidence: 0.65,
+      minGuessGap: 0.3,
+    },
+  },
+  {
+    name: 'smaller_gap',
+    engineConfig: {
+      maxQuestions: 20,
+      minGuessConfidence: 0.65,
+      minGuessGap: 0.1,
+    },
+  },
+  {
+    name: 'limit_14',
+    engineConfig: {
+      maxQuestions: 14,
+      minGuessConfidence: 0.65,
+      minGuessGap: 0.2,
+    },
+  },
+  {
+    name: 'limit_12',
+    engineConfig: {
+      maxQuestions: 12,
+      minGuessConfidence: 0.65,
+      minGuessGap: 0.2,
+    },
+  },
+]
+
+function printSweep(
+  answerProfile: 'EXACT' | 'REALISTIC',
+  reports: Array<{ name: string; report: SimulationReport }>,
+): void {
+  console.log(`\nM20 Batch 15C ${answerProfile} parameter sweep\n`)
+
+  console.table(
+    reports.map(({ name, report }) => ({
+      configuration: name,
+      accuracy: report.accuracy.toFixed(3),
+      avgQuestions: report.averageQuestions.toFixed(3),
+      earlyGuess: report.earlyGuessRate.toFixed(3),
+      wrongGuess: report.wrongGuessRate.toFixed(3),
+      questionLimit: report.questionLimitRate.toFixed(3),
+      noQuestions: report.noQuestionsRemainingRate.toFixed(3),
+      finalConfidence: report.averageFinalConfidence.toFixed(3),
+      confidenceGap: report.averageFinalConfidenceGap.toFixed(3),
+      effectiveness: report.averageQuestionEffectiveness.toFixed(3),
+    })),
+  )
 }
 
 describe('engine simulation', () => {
@@ -103,7 +197,7 @@ describe('engine simulation', () => {
     expect(first.averageQuestionEffectiveness).not.toBeNaN()
 
     console.log(
-      '\\nM20 Batch 15 EXACT baseline\\n',
+      '\nM20 Batch 15 EXACT baseline\n',
       JSON.stringify(first, null, 2),
     )
   })
@@ -122,8 +216,39 @@ describe('engine simulation', () => {
     expect(first.averageQuestionEffectiveness).not.toBeNaN()
 
     console.log(
-      '\\nM20 Batch 15 REALISTIC baseline\\n',
+      '\nM20 Batch 15 REALISTIC baseline\n',
       JSON.stringify(first, null, 2),
     )
   })
+
+  it('runs a deterministic parameter sweep for engine tuning', () => {
+    const exactReports = SWEEP_CASES.map(({ name, engineConfig }) => ({
+      name,
+      report: createReport('EXACT', engineConfig),
+    }))
+
+    const realisticReports = SWEEP_CASES.map(({ name, engineConfig }) => ({
+      name,
+      report: createReport('REALISTIC', engineConfig),
+    }))
+
+    printSweep('EXACT', exactReports)
+    printSweep('REALISTIC', realisticReports)
+
+    for (const { report } of [...exactReports, ...realisticReports]) {
+      expect(report.totalGames).toBe(1000)
+      expect(report.accuracy).toBeGreaterThanOrEqual(0)
+      expect(report.accuracy).toBeLessThanOrEqual(1)
+      expect(report.averageQuestions).toBeGreaterThan(0)
+      expect(report.maxQuestions).toBeLessThanOrEqual(
+        report.engineConfig.maxQuestions,
+      )
+    }
+
+    const first = createReport('REALISTIC', SWEEP_CASES[0].engineConfig)
+
+    const second = createReport('REALISTIC', SWEEP_CASES[0].engineConfig)
+
+    expect(first).toEqual(second)
+  }, 30_000)
 })
