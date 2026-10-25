@@ -1,6 +1,10 @@
 import type { AnswerValue } from '../../domain/answer'
 import type { GameState } from '../../domain/game'
-import { answerQuestion, createGame } from '../../engine/gameEngine'
+import {
+  answerQuestion,
+  createGame,
+  finalizeGuess,
+} from '../../engine/gameEngine'
 import type { GameEngineContext } from '../../engine/gameEngine'
 import type { GameRepository } from '../../repositories/gameRepository'
 
@@ -87,5 +91,7 @@ export async function finalizeCurrentGame(
     await repository.applyLearning(activeGame.state.gameId)
   }
 
-  return activeGame.state
+  const finalState = finalizeGuess(activeGame.state, correct)
+
+  return finalState
 }
