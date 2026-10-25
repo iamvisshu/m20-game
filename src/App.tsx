@@ -81,7 +81,16 @@ function App() {
     setError(null)
 
     try {
-      await finalizeCurrentGame(game, supabaseGameRepository, correct)
+      const finalState = await finalizeCurrentGame(
+        game,
+        supabaseGameRepository,
+        correct,
+      )
+
+      setGame({
+        ...game,
+        state: finalState,
+      })
 
       setResultFinalized(true)
     } catch (err) {
