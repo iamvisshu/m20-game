@@ -232,6 +232,49 @@ describe('game engine', () => {
     expect(result.state.guessedEntityId).toBe('water-bottle')
   })
 
+  it('guesses the top candidate when no unanswered questions remain', () => {
+    const noEarlyGuessContext: GameEngineContext = {
+      ...context,
+      terminationConfig: {
+        maxQuestions: 20,
+        minGuessScore: 100,
+        minGuessGap: 100,
+      },
+    }
+
+    let state = createGame(
+      ['water-bottle', 'phone', 'stone'],
+      noEarlyGuessContext,
+      'game-7',
+    )
+
+    for (let index = 0; index < questions.length; index += 1) {
+      const questionId = state.currentQuestionId
+
+      expect(questionId).toBeDefined()
+
+      const result = answerQuestion(
+        state,
+        questionId!,
+        'UNKNOWN',
+        noEarlyGuessContext,
+      )
+
+      state = result.state
+
+      if (index < questions.length - 1) {
+        expect(state.status).toBe('IN_PROGRESS')
+        expect(state.currentQuestionId).toBeDefined()
+      }
+    }
+
+    expect(state.status).toBe('COMPLETED')
+    expect(state.terminationReason).toBe('NO_QUESTIONS_REMAINING')
+    expect(state.guessedEntityId).toBeDefined()
+    expect(state.questionsAsked).toBe(questions.length)
+    expect(state.currentQuestionId).toBeUndefined()
+  })
+
   it('can finalize a correct guess', () => {
     const game = createGame(
       ['water-bottle', 'phone', 'stone'],

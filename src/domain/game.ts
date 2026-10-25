@@ -21,7 +21,8 @@ export interface GameState {
   }>
   questionsAsked: number
   status: GameStatus
-  terminationReason?: 'EARLY_GUESS' | 'QUESTION_LIMIT' | 'CONTINUE'
+  terminationReason?:
+    'EARLY_GUESS' | 'QUESTION_LIMIT' | 'NO_QUESTIONS_REMAINING' | 'CONTINUE'
   guessedEntityId?: string
   outcome?: GameOutcome
   currentQuestionId?: string

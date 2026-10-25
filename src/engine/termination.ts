@@ -4,7 +4,8 @@ export const DEFAULT_MAX_QUESTIONS = 20
 export const DEFAULT_MIN_GUESS_SCORE = 0.5
 export const DEFAULT_MIN_GUESS_GAP = 0.25
 
-export type TerminationReason = 'EARLY_GUESS' | 'QUESTION_LIMIT' | 'CONTINUE'
+export type TerminationReason =
+  'EARLY_GUESS' | 'QUESTION_LIMIT' | 'NO_QUESTIONS_REMAINING' | 'CONTINUE'
 
 export interface TerminationConfig {
   maxQuestions: number

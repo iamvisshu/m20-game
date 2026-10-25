@@ -196,7 +196,28 @@ export function answerQuestion(
   const nextQuestion = getNextQuestion(nextState, context)
 
   if (!nextQuestion) {
-    throw new Error('No unanswered active questions remain.')
+    const fallbackCandidate = rankedCandidates[0]
+
+    if (!fallbackCandidate) {
+      throw new Error('Cannot complete game without a candidate.')
+    }
+
+    const noQuestionsRemainingTermination: TerminationResult = {
+      shouldGuess: true,
+      reason: 'NO_QUESTIONS_REMAINING',
+      candidate: fallbackCandidate,
+    }
+
+    return {
+      state: {
+        ...nextState,
+        status: 'COMPLETED',
+        terminationReason: 'NO_QUESTIONS_REMAINING',
+        guessedEntityId: fallbackCandidate.entityId,
+        currentQuestionId: undefined,
+      },
+      termination: noQuestionsRemainingTermination,
+    }
   }
 
   return {

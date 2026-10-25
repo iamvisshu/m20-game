@@ -32,7 +32,7 @@ export const supabaseGameRepository: GameRepository = {
       .from('entities')
       .select('id')
 
-      .order('name', { ascending: true })
+      .order('canonical_name', { ascending: true })
 
     if (categoryId) {
       const { data, error } = await supabase
