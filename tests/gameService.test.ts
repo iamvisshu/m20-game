@@ -60,6 +60,23 @@ describe('gameService integration', () => {
     expect(activeGame.state.currentQuestionId).toBe(questionId)
   })
 
+  it('propagates repository errors when starting a game', async () => {
+    const repository = createRepository()
+    const repositoryError = new Error('Failed to start game')
+
+    vi.mocked(repository.startGame).mockRejectedValue(repositoryError)
+
+    await expect(startGame(repository, categoryId)).rejects.toThrow(
+      'Failed to start game',
+    )
+
+    expect(repository.startGame).toHaveBeenCalledWith(categoryId)
+    expect(repository.loadCandidates).not.toHaveBeenCalled()
+    expect(repository.loadQuestions).not.toHaveBeenCalled()
+    expect(repository.loadKnowledge).not.toHaveBeenCalled()
+    expect(repository.loadEntityNames).not.toHaveBeenCalled()
+  })
+
   it('records an answer through the repository and updates engine state', async () => {
     const repository = createRepository()
     const activeGame = await startGame(repository)
