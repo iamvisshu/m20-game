@@ -22,19 +22,23 @@ const ATTRIBUTE_IDS = [
   'is_human',
   'is_fictional',
   'made_of_metal',
+  'has_screen',
+  'has_fur',
+  'has_beak',
+  'has_peel',
 ] as const
 
 const ENTITIES: Record<string, number[]> = {
-  'water-bottle': [0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
-  smartphone: [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-  laptop: [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1],
-  bicycle: [0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1],
-  dog: [0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0],
-  cat: [0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0],
-  eagle: [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0],
-  apple: [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-  banana: [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
-  coffee: [0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0],
+  'water-bottle': [0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  smartphone: [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0],
+  laptop: [1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1],
+  bicycle: [0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+  dog: [0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+  cat: [0, 1, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+  eagle: [0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0],
+  apple: [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  banana: [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+  coffee: [0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 }
 
 const ENTITY_IDS = Object.keys(ENTITIES)
@@ -49,11 +53,15 @@ const QUESTIONS: Question[] = ATTRIBUTE_IDS.map((attributeId) => ({
     attributeId === 'can_fly' ||
     attributeId === 'is_animal' ||
     attributeId === 'is_human' ||
-    attributeId === 'is_fictional'
+    attributeId === 'is_fictional' ||
+    attributeId === 'has_fur' ||
+    attributeId === 'has_beak'
       ? 'biological'
       : attributeId === 'used_indoors' || attributeId === 'used_outdoors'
         ? 'usage'
-        : attributeId === 'made_of_metal'
+        : attributeId === 'made_of_metal' ||
+            attributeId === 'has_screen' ||
+            attributeId === 'has_peel'
           ? 'composition'
           : 'physical',
   active: true,
@@ -183,6 +191,17 @@ function printSweep(
 }
 
 describe('engine simulation', () => {
+  it('keeps every simulation entity distinguishable', () => {
+    const signatures = ENTITY_IDS.map((entityId) =>
+      ATTRIBUTE_IDS.map(
+        (attributeId) =>
+          createKnowledge().get(`${entityId}:${attributeId}`)?.value,
+      ).join('|'),
+    )
+
+    expect(new Set(signatures).size).toBe(ENTITY_IDS.length)
+  })
+
   it('produces a deterministic exact-answer baseline', () => {
     const first = createReport('EXACT')
     const second = createReport('EXACT')
@@ -246,7 +265,6 @@ describe('engine simulation', () => {
     }
 
     const first = createReport('REALISTIC', SWEEP_CASES[0].engineConfig)
-
     const second = createReport('REALISTIC', SWEEP_CASES[0].engineConfig)
 
     expect(first).toEqual(second)
