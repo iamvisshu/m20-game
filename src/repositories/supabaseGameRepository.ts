@@ -183,4 +183,23 @@ export const supabaseGameRepository: GameRepository = {
       throw new Error(`Failed to finalize game: ${error.message}`)
     }
   },
+
+  async loadCategories() {
+    const { data, error } = await supabase
+      .from('categories')
+      .select('id, name, description, active')
+      .eq('active', true)
+      .order('name', { ascending: true })
+
+    if (error) {
+      throw new Error(`Failed to load categories: ${error.message}`)
+    }
+
+    return (data ?? []).map((row) => ({
+      id: row.id,
+      name: row.name,
+      description: row.description ?? undefined,
+      active: row.active,
+    }))
+  },
 }

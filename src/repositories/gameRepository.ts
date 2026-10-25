@@ -1,4 +1,5 @@
 import type { AnswerValue } from '../domain/answer'
+import type { Category } from '../domain/entity'
 import type { EntityAttributeKnowledge } from '../domain/knowledge'
 import type { Question } from '../domain/question'
 import type { KnowledgeKey } from '../engine/questionSelection'
@@ -7,6 +8,8 @@ export interface GameRepository {
   startGame(categoryId?: string): Promise<string>
 
   loadCandidates(categoryId?: string): Promise<string[]>
+
+  loadCategories(): Promise<Category[]>
 
   loadQuestions(): Promise<Question[]>
 

@@ -2,32 +2,47 @@ import type { Session } from '@supabase/supabase-js'
 
 import { supabase } from './supabase'
 
-export async function ensureAnonymousSession(): Promise<Session> {
-  const {
-    data: { session },
-    error: sessionError,
-  } = await supabase.auth.getSession()
+let anonymousSessionPromise: Promise<Session> | null = null
 
-  if (sessionError) {
-    throw sessionError
+export function ensureAnonymousSession(): Promise<Session> {
+  if (anonymousSessionPromise) {
+    return anonymousSessionPromise
   }
 
-  if (session) {
-    return session
-  }
+  anonymousSessionPromise = (async () => {
+    const {
+      data: { session },
+      error: sessionError,
+    } = await supabase.auth.getSession()
 
-  const {
-    data: { session: anonymousSession },
-    error: signInError,
-  } = await supabase.auth.signInAnonymously()
+    if (sessionError) {
+      throw sessionError
+    }
 
-  if (signInError) {
-    throw signInError
-  }
+    if (session) {
+      return session
+    }
 
-  if (!anonymousSession) {
-    throw new Error('Anonymous sign-in succeeded without returning a session.')
-  }
+    const {
+      data: { session: anonymousSession },
+      error: signInError,
+    } = await supabase.auth.signInAnonymously()
 
-  return anonymousSession
+    if (signInError) {
+      throw signInError
+    }
+
+    if (!anonymousSession) {
+      throw new Error(
+        'Anonymous sign-in succeeded without returning a session.',
+      )
+    }
+
+    return anonymousSession
+  })().catch((error) => {
+    anonymousSessionPromise = null
+    throw error
+  })
+
+  return anonymousSessionPromise
 }
