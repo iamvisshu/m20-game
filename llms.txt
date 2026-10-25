@@ -1,0 +1,272 @@
+# M20
+
+> M20 is an educational 20 Questions-style guessing game with shared learning.
+
+## Primary Resources
+
+- Live application: https://m20quiz.vercel.app/
+- GitHub repository: https://github.com/iamvisshu/m20-game
+- Repository README: https://github.com/iamvisshu/m20-game/blob/main/README.md
+
+## What M20 Is
+
+M20 is a browser-based guessing game inspired by the classic Twenty Questions format and modern 20Q-style guessing systems.
+
+A player thinks of something and answers a sequence of questions. M20 uses those answers to rank candidate entities and eventually attempts to guess the player's concept.
+
+M20 uses five answer states:
+
+- YES
+- PROBABLY YES
+- UNKNOWN
+- PROBABLY NO
+- NO
+
+## Core Architecture
+
+M20 is built with:
+
+- React
+- TypeScript
+- Vite
+- Supabase
+- PostgreSQL
+- Supabase Auth
+- PostgreSQL Row Level Security
+- PostgreSQL RPC functions
+- Vercel
+
+The frontend contains separate layers for:
+
+- UI
+- application/game service logic
+- domain models
+- game engine
+- repositories
+- shared libraries
+
+## Game Engine
+
+The engine uses:
+
+- candidate scoring
+- information-gain based question selection
+- confidence thresholds
+- score-gap thresholds
+- maximum question limits
+- early guessing
+
+The engine is designed to be independently testable and simulatable without depending on the browser UI.
+
+## Knowledge Model
+
+Core concepts include:
+
+- Entity
+- Attribute
+- Question
+- Answer
+- Evidence
+- Confidence
+- Candidate
+
+Entities are associated with attributes and categories.
+
+Questions are associated with attributes.
+
+Gameplay answers produce evidence that can be used by the learning system.
+
+## Learning System
+
+M20 uses anonymous gameplay evidence to improve shared knowledge.
+
+Learning updates are evidence-based and designed to avoid allowing a single incorrect answer to immediately corrupt global knowledge.
+
+The learning model includes:
+
+- evidence
+- entity attribute statistics
+- knowledge history
+
+## Database
+
+Primary reference tables:
+
+- categories
+- entities
+- entity_categories
+- attributes
+- entity_attributes
+- question_families
+- questions
+- entity_aliases
+
+Gameplay tables:
+
+- games
+- game_questions
+- game_answers
+
+Learning tables:
+
+- evidence
+- entity_attribute_stats
+- knowledge_history
+
+## Security
+
+M20 uses PostgreSQL Row Level Security.
+
+Protected gameplay and learning mutations are handled through secured database RPC functions.
+
+Privileged Supabase service-role credentials must never be exposed to the frontend.
+
+Anonymous authentication is used for gameplay sessions.
+
+## Categories
+
+Current gameplay categories include:
+
+- Everything
+- Animals
+- Everyday Objects
+- Food & Drinks
+- Household
+- Technology
+- Vehicles
+
+## Entity Aliases
+
+M20 supports normalized aliases for entities.
+
+Examples:
+
+- Television → TV
+- Refrigerator → Fridge
+- Motorcycle → Motorbike
+- Airplane → Aeroplane
+
+Aliases resolve to canonical entities.
+
+## Testing
+
+The repository contains:
+
+- unit tests
+- integration tests
+- E2E tests
+- game simulations
+
+Simulation metrics include:
+
+- accuracy
+- average questions
+- median questions
+- maximum questions
+- early guessing
+- unanswered games
+- incorrect guesses
+- confidence
+- score gap
+- effectiveness
+
+## Local Development
+
+Repository:
+
+https://github.com/iamvisshu/m20-game
+
+Local path used by the developer:
+
+/Users/iamvisshu/Documents/GitHub/m20-game
+
+Install dependencies:
+
+npm install
+
+Start development server:
+
+npm run dev
+
+Build:
+
+npm run build
+
+Supabase migration status:
+
+npx supabase migration list
+
+Push Supabase migrations:
+
+npx supabase db push
+
+## Environment Variables
+
+The frontend requires:
+
+VITE_SUPABASE_URL
+VITE_SUPABASE_ANON_KEY
+
+Do not expose service-role credentials.
+
+## Deployment
+
+Production hosting:
+
+Vercel
+
+Production URL:
+
+https://m20quiz.vercel.app/
+
+Production branch:
+
+main
+
+GitHub repository:
+
+https://github.com/iamvisshu/m20-game
+
+## SEO
+
+M20 provides:
+
+- HTML title
+- meta description
+- canonical URL
+- Open Graph metadata
+- Twitter metadata
+- structured data
+- robots.txt
+- sitemap.xml
+- web manifest
+- favicon assets
+
+Canonical URL:
+
+https://m20quiz.vercel.app/
+
+## Project Philosophy
+
+M20 is intended as an educational, production-minded demonstration of:
+
+- interactive game architecture
+- knowledge representation
+- information theory
+- candidate ranking
+- uncertainty handling
+- evidence-based learning
+- PostgreSQL data modeling
+- database security
+- concurrent learning updates
+- frontend engineering
+
+M20 collects minimal personal information and does not require a traditional user account.
+
+## Author
+
+Vishal Vishwakarma
+
+GitHub:
+
+https://github.com/iamvisshu
