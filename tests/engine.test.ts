@@ -5,7 +5,10 @@ import {
   calculateInformationGain,
   selectBestQuestion,
 } from '../src/engine/questionSelection'
-import { evaluateTermination } from '../src/engine/termination'
+import {
+  calculateCandidateConfidences,
+  evaluateTermination,
+} from '../src/engine/termination'
 
 import type { EntityAttributeKnowledge } from '../src/domain/knowledge'
 import type { Question } from '../src/domain/question'
@@ -37,6 +40,43 @@ describe('candidate scoring', () => {
     const result = scoreCandidate('YES', undefined)
 
     expect(result.score).toBe(0)
+  })
+
+  it('uses evidence quality without allowing it to dominate confidence', () => {
+    const lowEvidence = scoreCandidate('YES', {
+      ...knowledge,
+      confidence: 0.5,
+      evidenceCount: 1,
+    })
+
+    const highEvidence = scoreCandidate('YES', {
+      ...knowledge,
+      confidence: 0.5,
+      evidenceCount: 20,
+    })
+
+    expect(highEvidence.score).toBeGreaterThan(lowEvidence.score)
+    expect(highEvidence.score).toBeLessThanOrEqual(1)
+  })
+
+  it('reduces repeated-attribute influence with diminishing returns', () => {
+    const first = scoreCandidate('YES', knowledge, 1)
+    const second = scoreCandidate('YES', knowledge, 2)
+    const fourth = scoreCandidate('YES', knowledge, 4)
+
+    expect(first.score).toBeGreaterThan(second.score)
+    expect(second.score).toBeGreaterThan(fourth.score)
+  })
+
+  it('keeps unknown or missing knowledge neutral', () => {
+    expect(scoreCandidate('YES', undefined).score).toBe(0)
+
+    expect(
+      scoreCandidate('YES', {
+        ...knowledge,
+        confidence: 0,
+      }).score,
+    ).toBe(0)
   })
 
   it('ranks matching candidates first', () => {
@@ -155,11 +195,45 @@ describe('question selection', () => {
 })
 
 describe('termination', () => {
-  it('guesses when the top candidate has sufficient separation', () => {
+  it('normalizes candidate scores into probabilities', () => {
+    const result = calculateCandidateConfidences([
+      { entityId: 'water-bottle', score: 2 },
+      { entityId: 'phone', score: 0 },
+      { entityId: 'stone', score: 0 },
+    ])
+
+    expect(result[0].confidence).toBeCloseTo(0.786986, 5)
+    expect(result[1].confidence).toBeCloseTo(0.106507, 5)
+    expect(result[2].confidence).toBeCloseTo(0.106507, 5)
+    expect(
+      result.reduce((sum, candidate) => sum + candidate.confidence, 0),
+    ).toBeCloseTo(1)
+  })
+
+  it('handles negative raw scores without changing relative confidence', () => {
+    const positive = calculateCandidateConfidences([
+      { entityId: 'water-bottle', score: 2 },
+      { entityId: 'phone', score: 0 },
+      { entityId: 'stone', score: 0 },
+    ])
+
+    const shifted = calculateCandidateConfidences([
+      { entityId: 'water-bottle', score: -8 },
+      { entityId: 'phone', score: -10 },
+      { entityId: 'stone', score: -10 },
+    ])
+
+    expect(shifted[0].confidence).toBeCloseTo(positive[0].confidence, 10)
+    expect(shifted[1].confidence).toBeCloseTo(positive[1].confidence, 10)
+    expect(shifted[2].confidence).toBeCloseTo(positive[2].confidence, 10)
+  })
+
+  it('guesses when normalized confidence and separation are sufficient', () => {
     const result = evaluateTermination(
       [
-        { entityId: 'water-bottle', score: 1 },
-        { entityId: 'cup', score: 0.1 },
+        { entityId: 'water-bottle', score: 2 },
+        { entityId: 'phone', score: 0 },
+        { entityId: 'stone', score: 0 },
       ],
       3,
     )
@@ -167,26 +241,45 @@ describe('termination', () => {
     expect(result.shouldGuess).toBe(true)
     expect(result.reason).toBe('EARLY_GUESS')
     expect(result.candidate?.entityId).toBe('water-bottle')
+    expect(result.confidence).toBeCloseTo(0.786986, 5)
+    expect(result.confidenceGap).toBeCloseTo(0.68048, 5)
   })
 
-  it('guesses at the question limit', () => {
+  it('continues when normalized confidence is insufficient', () => {
     const result = evaluateTermination(
       [
         { entityId: 'water-bottle', score: 0.2 },
-        { entityId: 'cup', score: 0.1 },
+        { entityId: 'phone', score: 0.15 },
+        { entityId: 'stone', score: 0.1 },
+      ],
+      3,
+    )
+
+    expect(result.shouldGuess).toBe(false)
+    expect(result.reason).toBe('CONTINUE')
+    expect(result.confidence).toBeLessThan(0.65)
+  })
+
+  it('guesses at the question limit even without sufficient confidence', () => {
+    const result = evaluateTermination(
+      [
+        { entityId: 'water-bottle', score: 0.2 },
+        { entityId: 'phone', score: 0.15 },
+        { entityId: 'stone', score: 0.1 },
       ],
       20,
     )
 
     expect(result.shouldGuess).toBe(true)
     expect(result.reason).toBe('QUESTION_LIMIT')
+    expect(result.candidate?.entityId).toBe('water-bottle')
   })
 
-  it('continues when evidence is insufficient', () => {
+  it('continues when evidence is insufficient and the limit is not reached', () => {
     const result = evaluateTermination(
       [
         { entityId: 'water-bottle', score: 0.2 },
-        { entityId: 'cup', score: 0.15 },
+        { entityId: 'phone', score: 0.19 },
       ],
       3,
     )

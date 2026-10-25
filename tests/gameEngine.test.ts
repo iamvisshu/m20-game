@@ -146,12 +146,64 @@ const context: GameEngineContext = {
   knowledgeByEntityAttribute: knowledge,
   terminationConfig: {
     maxQuestions: 20,
-    minGuessScore: 1.5,
-    minGuessGap: 0.5,
+    minGuessConfidence: 0.65,
+    minGuessGap: 0.2,
   },
 }
 
 describe('game engine', () => {
+  it('applies diminishing returns when the same attribute is asked twice', () => {
+    const repeatedQuestions: Question[] = [
+      {
+        id: 'portable-1',
+        text: 'Is it portable?',
+        primaryAttributeId: 'portable',
+        active: true,
+      },
+      {
+        id: 'portable-2',
+        text: 'Can you easily carry it?',
+        primaryAttributeId: 'portable',
+        active: true,
+      },
+    ]
+
+    const repeatedContext: GameEngineContext = {
+      questions: repeatedQuestions,
+      knowledgeByEntityAttribute: knowledge,
+      terminationConfig: {
+        maxQuestions: 20,
+        minGuessConfidence: 10,
+        minGuessGap: 10,
+      },
+    }
+
+    const game = createGame(
+      ['water-bottle', 'phone', 'stone'],
+      repeatedContext,
+      'repeated-attribute-test',
+    )
+
+    const firstTurn = answerQuestion(game, 'portable-1', 'YES', repeatedContext)
+
+    expect(firstTurn.state.rankedCandidates[0]).toEqual({
+      entityId: 'water-bottle',
+      score: 1,
+    })
+
+    const secondTurn = answerQuestion(
+      firstTurn.state,
+      'portable-2',
+      'YES',
+      repeatedContext,
+    )
+
+    expect(secondTurn.state.rankedCandidates[0].entityId).toBe('water-bottle')
+    expect(secondTurn.state.rankedCandidates[0].score).toBeCloseTo(
+      1 + 1 / Math.sqrt(2),
+    )
+  })
+
   it('starts with the most informative question', () => {
     const game = createGame(
       ['water-bottle', 'phone', 'stone'],
@@ -214,7 +266,7 @@ describe('game engine', () => {
       ...context,
       terminationConfig: {
         maxQuestions: 1,
-        minGuessScore: 100,
+        minGuessConfidence: 100,
         minGuessGap: 100,
       },
     }
@@ -237,7 +289,7 @@ describe('game engine', () => {
       ...context,
       terminationConfig: {
         maxQuestions: 20,
-        minGuessScore: 100,
+        minGuessConfidence: 100,
         minGuessGap: 100,
       },
     }

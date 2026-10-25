@@ -7,7 +7,7 @@ import { type KnowledgeKey, selectBestQuestion } from './questionSelection'
 import {
   DEFAULT_MAX_QUESTIONS,
   DEFAULT_MIN_GUESS_GAP,
-  DEFAULT_MIN_GUESS_SCORE,
+  DEFAULT_MIN_GUESS_CONFIDENCE,
   evaluateTermination,
   type TerminationConfig,
   type TerminationResult,
@@ -42,6 +42,7 @@ function rankCandidatesForAnswers(
   return candidateIds
     .map((entityId) => {
       let score = 0
+      const attributeOccurrences = new Map<string, number>()
 
       for (const gameAnswer of answers) {
         const question = questionsById.get(gameAnswer.questionId)
@@ -50,11 +51,16 @@ function rankCandidatesForAnswers(
           throw new Error(`Question not found: ${gameAnswer.questionId}`)
         }
 
+        const attributeId = question.primaryAttributeId
+        const occurrence = (attributeOccurrences.get(attributeId) ?? 0) + 1
+
+        attributeOccurrences.set(attributeId, occurrence)
+
         const knowledge = knowledgeByEntityAttribute.get(
-          `${entityId}:${question.primaryAttributeId}`,
+          `${entityId}:${attributeId}`,
         )
 
-        score += scoreCandidate(gameAnswer.answer, knowledge).score
+        score += scoreCandidate(gameAnswer.answer, knowledge, occurrence).score
       }
 
       return {
@@ -69,7 +75,7 @@ function getTerminationConfig(context: GameEngineContext): TerminationConfig {
   return (
     context.terminationConfig ?? {
       maxQuestions: DEFAULT_MAX_QUESTIONS,
-      minGuessScore: DEFAULT_MIN_GUESS_SCORE,
+      minGuessConfidence: DEFAULT_MIN_GUESS_CONFIDENCE,
       minGuessGap: DEFAULT_MIN_GUESS_GAP,
     }
   )

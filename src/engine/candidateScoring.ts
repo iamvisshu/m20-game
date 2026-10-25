@@ -35,11 +35,44 @@ const COMPATIBILITY: Record<AnswerValue, Record<'TRUE' | 'FALSE', number>> = {
   },
 }
 
+const MAX_EVIDENCE_RELIABILITY = 0.9
+
+export function calculateEvidenceReliability(evidenceCount: number): number {
+  if (evidenceCount <= 0) {
+    return 0
+  }
+
+  return Math.min(MAX_EVIDENCE_RELIABILITY, evidenceCount / (evidenceCount + 2))
+}
+
+export function calculateEvidenceWeight(
+  knowledge: EntityAttributeKnowledge | undefined,
+): number {
+  if (!knowledge || knowledge.confidence <= 0) {
+    return 0
+  }
+
+  const confidence = Math.min(1, Math.max(0, knowledge.confidence))
+
+  if (knowledge.evidenceCount <= 0) {
+    return 0
+  }
+
+  const evidenceReliability = calculateEvidenceReliability(
+    knowledge.evidenceCount,
+  )
+
+  return confidence + (1 - confidence) * evidenceReliability
+}
+
 export function scoreCandidate(
   answer: AnswerValue,
   knowledge: EntityAttributeKnowledge | undefined,
+  attributeOccurrence = 1,
 ): CandidateScore {
-  if (!knowledge || knowledge.confidence <= 0) {
+  const evidenceWeight = calculateEvidenceWeight(knowledge)
+
+  if (!knowledge || evidenceWeight <= 0) {
     return {
       entityId: knowledge?.entityId ?? '',
       score: 0,
@@ -47,14 +80,16 @@ export function scoreCandidate(
     }
   }
 
+  const occurrence = Math.max(1, attributeOccurrence)
+  const repetitionWeight = 1 / Math.sqrt(occurrence)
   const value = knowledge.value ? 'TRUE' : 'FALSE'
   const compatibility = COMPATIBILITY[answer][value]
-  const contribution = knowledge.confidence * compatibility
+  const contribution = evidenceWeight * compatibility * repetitionWeight
 
   return {
     entityId: knowledge.entityId,
     score: contribution,
-    evidenceWeight: knowledge.confidence,
+    evidenceWeight,
   }
 }
 
