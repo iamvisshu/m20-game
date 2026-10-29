@@ -12,7 +12,16 @@
     "test:watch": "vitest",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "test:integration": "vitest run --config vitest.integration.config.ts"
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "dataset:validate": "node scripts/validate-dataset.mjs",
+    "evaluate": "npm run dataset:validate && npm test",
+    "evaluate:dataset": "node scripts/evaluate-dataset.mjs",
+    "evaluate:live": "vitest run tests/evaluate-live-engine.test.ts",
+    "adapter:live": "node scripts/data/liveDatasetAdapter.mjs",
+    "evaluate:coverage": "node scripts/evaluate-knowledge-coverage.mjs",
+    "evaluate:diagnostics": "node scripts/evaluate-engine-diagnostics.mjs",
+    "dataset:generate": "node scripts/generate-knowledge-matrix.mjs",
+    "evaluate:category-fit": "node scripts/evaluate-category-question-fit.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.109.0",

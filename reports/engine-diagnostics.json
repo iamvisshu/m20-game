@@ -1,0 +1,508 @@
+{
+  "generatedAt": "2026-10-29T12:11:42.935Z",
+  "dataset": {
+    "entities": 53,
+    "attributes": 34,
+    "questions": 34,
+    "knowledgeRows": 1802
+  },
+  "entityCoverage": [
+    {
+      "entity": "Water Bottle",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Smartphone",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Laptop",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Bicycle",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Dog",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Cat",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Eagle",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Apple",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Banana",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Coffee",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Tablet",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Television",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Headphones",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Camera",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Keyboard",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Mouse",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Printer",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Refrigerator",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Microwave",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Washing Machine",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Car",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Motorcycle",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Bus",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Train",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Airplane",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Boat",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Lion",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Tiger",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Elephant",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Horse",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Cow",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Chicken",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Fish",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Shark",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Dolphin",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Parrot",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Orange",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Mango",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Grape",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Watermelon",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Carrot",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Potato",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Tomato",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Bread",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Rice",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Milk",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Tea",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Juice",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Chair",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Table",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Umbrella",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Backpack",
+      "known": 34,
+      "coverage": 1
+    },
+    {
+      "entity": "Book",
+      "known": 34,
+      "coverage": 1
+    }
+  ],
+  "weakestAttributes": [
+    {
+      "attributeId": "3dbe9cdb-2f25-41ca-8485-5e3a47f648d5",
+      "attribute": "has_wheels",
+      "question": "Does it have wheels?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "a7984ca5-25bf-4cea-a260-d19cbeced513",
+      "attribute": "is_animal",
+      "question": "Is it an animal?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "d4e4b78d-2b4a-4858-8e02-0464e4ad93bd",
+      "attribute": "electronic",
+      "question": "Is it electronic?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "72a9c43e-63c8-4a11-ae6f-39dec6935497",
+      "attribute": "edible",
+      "question": "Is it edible?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "b21eb65a-3645-470f-9ac8-429321f5a65b",
+      "attribute": "used_outdoors",
+      "question": "Is it commonly used outdoors?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "3fbd88d9-5947-44ce-99a9-663da281adff",
+      "attribute": "has_legs",
+      "question": "Does it have legs?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "499e0a03-da55-4f3b-b97b-1e546dc40630",
+      "attribute": "made_of_metal",
+      "question": "Is it substantially made of metal?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "60076d76-e82b-4d27-b89a-dd3ca3145ffe",
+      "attribute": "is_human",
+      "question": "Is it human?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "961432de-6812-40c7-8eb9-4a3f22970000",
+      "attribute": "used_indoors",
+      "question": "Is it commonly used indoors?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "2e3a8964-d19e-48d0-91ec-c03c9d4c54b6",
+      "attribute": "alive",
+      "question": "Is it alive?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "cadab1c5-4c1b-45bd-9b4c-4ba39c5eb618",
+      "attribute": "portable",
+      "question": "Is it portable?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "486cec75-5ef6-4985-acce-da4e802f500f",
+      "attribute": "can_fly",
+      "question": "Can it naturally fly?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "2fd87902-8fcc-4d69-88fd-058597a09252",
+      "attribute": "is_fictional",
+      "question": "Is it fictional?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "f06a6e68-16f1-43d3-a485-ec6ea96c3243",
+      "attribute": "contains_liquid",
+      "question": "Does it normally contain liquid?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "e85cb29a-de67-46b7-a508-3f6347297e19",
+      "attribute": "can_be_driven",
+      "question": "Can it normally be driven?",
+      "known": 53,
+      "coverage": 1
+    }
+  ],
+  "strongestAttributes": [
+    {
+      "attributeId": "3dbe9cdb-2f25-41ca-8485-5e3a47f648d5",
+      "attribute": "has_wheels",
+      "question": "Does it have wheels?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "a7984ca5-25bf-4cea-a260-d19cbeced513",
+      "attribute": "is_animal",
+      "question": "Is it an animal?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "d4e4b78d-2b4a-4858-8e02-0464e4ad93bd",
+      "attribute": "electronic",
+      "question": "Is it electronic?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "72a9c43e-63c8-4a11-ae6f-39dec6935497",
+      "attribute": "edible",
+      "question": "Is it edible?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "b21eb65a-3645-470f-9ac8-429321f5a65b",
+      "attribute": "used_outdoors",
+      "question": "Is it commonly used outdoors?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "3fbd88d9-5947-44ce-99a9-663da281adff",
+      "attribute": "has_legs",
+      "question": "Does it have legs?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "499e0a03-da55-4f3b-b97b-1e546dc40630",
+      "attribute": "made_of_metal",
+      "question": "Is it substantially made of metal?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "60076d76-e82b-4d27-b89a-dd3ca3145ffe",
+      "attribute": "is_human",
+      "question": "Is it human?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "961432de-6812-40c7-8eb9-4a3f22970000",
+      "attribute": "used_indoors",
+      "question": "Is it commonly used indoors?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "2e3a8964-d19e-48d0-91ec-c03c9d4c54b6",
+      "attribute": "alive",
+      "question": "Is it alive?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "cadab1c5-4c1b-45bd-9b4c-4ba39c5eb618",
+      "attribute": "portable",
+      "question": "Is it portable?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "486cec75-5ef6-4985-acce-da4e802f500f",
+      "attribute": "can_fly",
+      "question": "Can it naturally fly?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "2fd87902-8fcc-4d69-88fd-058597a09252",
+      "attribute": "is_fictional",
+      "question": "Is it fictional?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "f06a6e68-16f1-43d3-a485-ec6ea96c3243",
+      "attribute": "contains_liquid",
+      "question": "Does it normally contain liquid?",
+      "known": 53,
+      "coverage": 1
+    },
+    {
+      "attributeId": "e85cb29a-de67-46b7-a508-3f6347297e19",
+      "attribute": "can_be_driven",
+      "question": "Can it normally be driven?",
+      "known": 53,
+      "coverage": 1
+    }
+  ],
+  "contradictions": [
+    {
+      "entity": "Apple",
+      "attribute": "has_wheels",
+      "value": true,
+      "confidence": 0.76395,
+      "evidenceCount": 269,
+      "positiveEvidence": 178,
+      "negativeEvidence": 55
+    }
+  ],
+  "diagnosis": {
+    "averageEntityCoverage": 1,
+    "entitiesBelow50Percent": 0,
+    "attributesBelow50Percent": 0,
+    "contradictoryKnowledgeRows": 1,
+    "likelyBottleneck": "KNOWLEDGE_CONTRADICTIONS"
+  }
+}

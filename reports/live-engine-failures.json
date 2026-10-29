@@ -1,0 +1,168 @@
+{
+  "generatedAt": "2026-10-29T11:59:06.296Z",
+  "totalGames": 53,
+  "accuracy": 0.5660377358490566,
+  "failures": [
+    {
+      "targetEntityId": "06058a52-657c-4978-ac95-845687380527",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "a5febf85-5e94-475a-a47f-99c820c4b961",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "440ebc9a-5679-40ee-a014-7c87876d346b",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "e969e036-59e5-4dcd-aad5-d067325d4479",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "5c749972-533a-44aa-b443-588473259b9c",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "e81cbd56-f47a-4e2b-9fba-93ab7fddb98a",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "8be6e7d7-4d94-4555-ada6-ecc83e196680",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "eaa0782c-7c76-47d8-b22d-a2470634ad6e",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "445b125e-a92e-4d6e-ac42-958573395165",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "59145929-0950-46cf-a715-85360bb4c722",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "f97bf48e-ff66-463b-8f15-f9fafeb6198b",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "162c428a-0877-4b09-9267-a661cefc8348",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "a7ba8e39-ccfb-4f45-b134-fd221de9c306",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "a0a1946e-edd9-4a32-9e7a-0f77a8140aac",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "ad0eac7c-bfec-4370-9ea1-9edc314e2e4a",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "05e48061-eb88-48b5-a0c2-137bafe6e56a",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "701ba361-2d37-4600-b355-1dbaad792460",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "2c451254-101a-40bd-ba9b-17a07de153fa",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "e3ac911a-42b5-4cae-bf87-6f35e9c73f25",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "97961cbf-03da-437d-a81c-521ca52f4e0c",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "bc09520c-129a-45b0-9b98-771f0c248d02",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    },
+    {
+      "targetEntityId": "29adb99e-2bc7-4597-8528-b7b5b134f4ce",
+      "games": 1,
+      "correct": 0,
+      "accuracy": 0,
+      "averageQuestions": 20
+    }
+  ]
+}

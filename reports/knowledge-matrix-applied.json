@@ -1,0 +1,6 @@
+{
+  "generatedAt": "2026-10-29T11:31:26.971Z",
+  "insertedProposalRows": 802,
+  "expectedTotalKnowledgeRows": 1802,
+  "migration": "/Users/iamvisshu/Documents/GitHub/m20-game/supabase/migrations/20261029113126_batch25g_knowledge_completion.sql"
+}

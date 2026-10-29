@@ -19,6 +19,7 @@ export interface QuestionCandidate {
   reliability: number
   redundancyPenalty: number
   applicability: number
+  categoryFit: number
   finalScore: number
 }
 
@@ -26,16 +27,22 @@ export interface QuestionSelectionConfig {
   coverageWeight?: number
   reliabilityWeight?: number
   redundancyPenalty?: number
+  categoryFitWeight?: number
   minimumApplicability?: number
   applicabilityByQuestionId?: Map<string, number>
+  categoryFitByQuestionId?: Map<string, number>
 }
 
 const DEFAULT_SELECTION_CONFIG: Required<
-  Omit<QuestionSelectionConfig, 'applicabilityByQuestionId'>
+  Omit<
+    QuestionSelectionConfig,
+    'applicabilityByQuestionId' | 'categoryFitByQuestionId'
+  >
 > = {
   coverageWeight: 0.5,
   reliabilityWeight: 1,
   redundancyPenalty: 0.25,
+  categoryFitWeight: 0.35,
   minimumApplicability: 0.25,
 }
 
@@ -319,6 +326,9 @@ export function selectBestQuestion(
     const applicability =
       selectionConfig.applicabilityByQuestionId?.get(question.id) ?? 1
 
+    const categoryFit =
+      selectionConfig.categoryFitByQuestionId?.get(question.id) ?? 1
+
     const coverageFactor = 1 - selectionConfig.coverageWeight * (1 - coverage)
 
     const reliabilityFactor =
@@ -327,12 +337,16 @@ export function selectBestQuestion(
     const redundancyFactor =
       1 - selectionConfig.redundancyPenalty * redundancyPenalty
 
+    const categoryFitFactor =
+      1 - selectionConfig.categoryFitWeight * (1 - categoryFit)
+
     const finalScore = Math.max(
       0,
       informationGain *
         coverageFactor *
         reliabilityFactor *
         redundancyFactor *
+        categoryFitFactor *
         applicability,
     )
 
@@ -343,6 +357,7 @@ export function selectBestQuestion(
       reliability,
       redundancyPenalty,
       applicability,
+      categoryFit,
       finalScore,
     }
   })

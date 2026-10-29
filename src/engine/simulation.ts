@@ -36,6 +36,7 @@ export interface SimulationEntityMetrics {
   correct: number
   accuracy: number
   averageQuestions: number
+  guessedEntityIds: string[]
 }
 
 export interface SimulationReport {
@@ -214,6 +215,7 @@ export function runSimulation(
       games: number
       correct: number
       questions: number
+      guessedEntityIds: string[]
     }
   >()
 
@@ -222,6 +224,7 @@ export function runSimulation(
       games: 0,
       correct: 0,
       questions: 0,
+      guessedEntityIds: [],
     })
   }
 
@@ -327,6 +330,10 @@ export function runSimulation(
         wrongGames += 1
       }
 
+      if (guessedEntityId) {
+        entityMetrics.guessedEntityIds.push(guessedEntityId)
+      }
+
       switch (state.terminationReason) {
         case 'QUESTION_LIMIT':
           questionLimitGames += 1
@@ -354,6 +361,7 @@ export function runSimulation(
       accuracy: metrics.games === 0 ? 0 : metrics.correct / metrics.games,
       averageQuestions:
         metrics.games === 0 ? 0 : metrics.questions / metrics.games,
+      guessedEntityIds: metrics.guessedEntityIds,
     }
   }
 

@@ -1,0 +1,825 @@
+{
+  "generatedAt": "2026-10-29T12:11:40.551Z",
+  "summary": {
+    "entities": 53,
+    "attributes": 34,
+    "questions": 34,
+    "knowledgeRows": 1802,
+    "possibleEntityAttributePairs": 1802,
+    "knownEntityAttributePairs": 1802,
+    "missingEntityAttributePairs": 0,
+    "overallCoveragePercent": 100,
+    "questionAttributeCoveragePercent": 100,
+    "highPriorityMissingPairs": 0,
+    "entitiesBelow50PercentQuestionCoverage": 0,
+    "weakQuestionAttributes": 0
+  },
+  "entityCoverage": [
+    {
+      "entityId": "85160c17-b8b3-41f7-b91f-4a17846f09d9",
+      "entity": "Water Bottle",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "085b8dee-4be3-4f29-b2c0-fd1836ef04c6",
+      "entity": "Smartphone",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "06058a52-657c-4978-ac95-845687380527",
+      "entity": "Laptop",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "55ec379c-9482-49ec-88c2-83f26d5ded0d",
+      "entity": "Bicycle",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "0816330e-39b0-4652-a4cd-eb0c4c5d408e",
+      "entity": "Dog",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "a5febf85-5e94-475a-a47f-99c820c4b961",
+      "entity": "Cat",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "53aaf4c4-7a90-4517-9210-611d734ca85f",
+      "entity": "Eagle",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "41fc0e09-807b-4728-ae4e-2b015f1ed461",
+      "entity": "Apple",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "474fe07e-1c34-4a59-b41c-2460ccdfb1ef",
+      "entity": "Banana",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "61556bad-39e7-43a8-976a-72b3cc73d8fd",
+      "entity": "Coffee",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "8c950914-4e53-4153-8f77-171edc5bd52f",
+      "entity": "Tablet",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "16ebb3b5-ba47-4161-abbc-d77f8381ed51",
+      "entity": "Television",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "5bb35996-2a24-4ca3-a9c2-7c61639c0abd",
+      "entity": "Headphones",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "151cf444-6c03-4cd6-ba83-cb9cc377b603",
+      "entity": "Camera",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "00f3802d-06a9-411b-919b-b9874a6f6f4f",
+      "entity": "Keyboard",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "440ebc9a-5679-40ee-a014-7c87876d346b",
+      "entity": "Mouse",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "e969e036-59e5-4dcd-aad5-d067325d4479",
+      "entity": "Printer",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "6ed284fd-f3b9-47be-a260-1fc40feffe6a",
+      "entity": "Refrigerator",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "0e4b3799-4a4e-415b-8797-2e8b71f82701",
+      "entity": "Microwave",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "e45dd5be-204c-484d-89ae-1221a34b1d0b",
+      "entity": "Washing Machine",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "e65e69b0-4190-475a-85b5-29b4a0b763fe",
+      "entity": "Car",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "5c749972-533a-44aa-b443-588473259b9c",
+      "entity": "Motorcycle",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "e81cbd56-f47a-4e2b-9fba-93ab7fddb98a",
+      "entity": "Bus",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "8be6e7d7-4d94-4555-ada6-ecc83e196680",
+      "entity": "Train",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "eaa0782c-7c76-47d8-b22d-a2470634ad6e",
+      "entity": "Airplane",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "445b125e-a92e-4d6e-ac42-958573395165",
+      "entity": "Boat",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "a710dcc1-194a-404e-a389-08efe4a568f4",
+      "entity": "Lion",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "59145929-0950-46cf-a715-85360bb4c722",
+      "entity": "Tiger",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "4bdd8533-738f-45b7-b023-3bffe92c2b93",
+      "entity": "Elephant",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed",
+      "entity": "Horse",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "f97bf48e-ff66-463b-8f15-f9fafeb6198b",
+      "entity": "Cow",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "162c428a-0877-4b09-9267-a661cefc8348",
+      "entity": "Chicken",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "808f0817-4d01-4e45-bd51-3b27380da6f9",
+      "entity": "Fish",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "a7ba8e39-ccfb-4f45-b134-fd221de9c306",
+      "entity": "Shark",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "a0a1946e-edd9-4a32-9e7a-0f77a8140aac",
+      "entity": "Dolphin",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "ad0eac7c-bfec-4370-9ea1-9edc314e2e4a",
+      "entity": "Parrot",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "a81a0a9f-718e-4159-8fb7-bd5462d5d876",
+      "entity": "Orange",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "05e48061-eb88-48b5-a0c2-137bafe6e56a",
+      "entity": "Mango",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "701ba361-2d37-4600-b355-1dbaad792460",
+      "entity": "Grape",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "cc0cb614-32d7-43e7-9ff4-2a754b4af858",
+      "entity": "Watermelon",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171",
+      "entity": "Carrot",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "2c451254-101a-40bd-ba9b-17a07de153fa",
+      "entity": "Potato",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "118c62d9-798e-4eba-9acd-f6aacc6eef3d",
+      "entity": "Tomato",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "e3ac911a-42b5-4cae-bf87-6f35e9c73f25",
+      "entity": "Bread",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "97961cbf-03da-437d-a81c-521ca52f4e0c",
+      "entity": "Rice",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "56d6dd56-cb93-4ceb-91c3-d044576b3ed2",
+      "entity": "Milk",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "f42fccdd-bd20-4d8c-9e3a-f8dee2cfc034",
+      "entity": "Tea",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "bc09520c-129a-45b0-9b98-771f0c248d02",
+      "entity": "Juice",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "18550f0a-1628-4706-9adf-6a9299a5547f",
+      "entity": "Chair",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "29adb99e-2bc7-4597-8528-b7b5b134f4ce",
+      "entity": "Table",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "38f6e0f8-3ecf-4565-92fa-eecc6ebcbf4c",
+      "entity": "Umbrella",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "d8eb0626-d11a-4a12-838d-6038880c886f",
+      "entity": "Backpack",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    },
+    {
+      "entityId": "c36812af-12c3-4366-93db-52272f3a5e59",
+      "entity": "Book",
+      "knownAttributes": 34,
+      "totalAttributes": 34,
+      "coveragePercent": 100,
+      "knownQuestionAttributes": 34,
+      "totalQuestions": 34,
+      "questionCoveragePercent": 100
+    }
+  ],
+  "attributeCoverage": [
+    {
+      "attributeId": "d4e4b78d-2b4a-4858-8e02-0464e4ad93bd",
+      "attribute": "electronic",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "cadab1c5-4c1b-45bd-9b4c-4ba39c5eb618",
+      "attribute": "portable",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "72a9c43e-63c8-4a11-ae6f-39dec6935497",
+      "attribute": "edible",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "2e3a8964-d19e-48d0-91ec-c03c9d4c54b6",
+      "attribute": "alive",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "3fbd88d9-5947-44ce-99a9-663da281adff",
+      "attribute": "has_legs",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "3dbe9cdb-2f25-41ca-8485-5e3a47f648d5",
+      "attribute": "has_wheels",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "961432de-6812-40c7-8eb9-4a3f22970000",
+      "attribute": "used_indoors",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "b21eb65a-3645-470f-9ac8-429321f5a65b",
+      "attribute": "used_outdoors",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "f06a6e68-16f1-43d3-a485-ec6ea96c3243",
+      "attribute": "contains_liquid",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "486cec75-5ef6-4985-acce-da4e802f500f",
+      "attribute": "can_fly",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "a7984ca5-25bf-4cea-a260-d19cbeced513",
+      "attribute": "is_animal",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "60076d76-e82b-4d27-b89a-dd3ca3145ffe",
+      "attribute": "is_human",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "2fd87902-8fcc-4d69-88fd-058597a09252",
+      "attribute": "is_fictional",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "499e0a03-da55-4f3b-b97b-1e546dc40630",
+      "attribute": "made_of_metal",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "01e681ea-6633-4a84-8290-b9c2c03eeaee",
+      "attribute": "has_screen",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "60146b7a-0cc7-4406-8db3-bc187847db06",
+      "attribute": "has_buttons",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "a3b146e9-7304-416f-bdd1-e025cb74e8d0",
+      "attribute": "has_fur",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "eeed4f92-3fdc-48d6-8536-56d1bd7582d5",
+      "attribute": "has_beak",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "95b1a67b-75ae-4ae3-85ed-e0131e4998de",
+      "attribute": "has_tail",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "25c3d109-c128-4959-8138-a61ff09b4e2b",
+      "attribute": "has_feathers",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "fdc56cf1-a0e1-4870-9f9f-4746ac62e8a8",
+      "attribute": "lives_in_water",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "d9db70cc-90cf-48f9-9876-8041cc3206e7",
+      "attribute": "is_plant",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "b1516471-a7f0-42d3-bb25-24e927c826ff",
+      "attribute": "is_fruit",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "fc0cf537-dc8a-443b-a145-5ff3d83b4ccc",
+      "attribute": "is_vegetable",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "412db2bb-5cea-45e7-bb80-6ee1fead700d",
+      "attribute": "is_beverage",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "48bff7db-98ea-41df-ba46-73e30a6a6248",
+      "attribute": "has_engine",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "3b4a1bb8-2aed-4fbb-b02a-4591f75af709",
+      "attribute": "has_four_wheels",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "0b7710d5-0e28-413e-970a-eb245738c4a3",
+      "attribute": "has_two_wheels",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "e85cb29a-de67-46b7-a508-3f6347297e19",
+      "attribute": "can_be_driven",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "1c71bed8-5a92-4667-b7c9-c1d7c563616d",
+      "attribute": "used_for_cooking",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "59b32bc5-0fd0-4b48-bbf4-794faeaeec68",
+      "attribute": "used_for_cleaning",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "7a4c932e-4b2d-4dcf-8249-a1a6272664ef",
+      "attribute": "made_of_glass",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "b75797da-0802-4e49-8e56-807e3ea42fc2",
+      "attribute": "made_of_plastic",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    },
+    {
+      "attributeId": "ab89c293-399b-436e-8ed3-90fe7c2c0d11",
+      "attribute": "made_of_wood",
+      "isQuestionAttribute": true,
+      "knownEntities": 53,
+      "totalEntities": 53,
+      "coveragePercent": 100
+    }
+  ],
+  "priorityMissingKnowledge": [],
+  "allMissingKnowledge": []
+}

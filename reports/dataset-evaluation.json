@@ -1,0 +1,50 @@
+{
+  "generatedAt": "2026-10-29T09:12:10.715Z",
+  "source": {
+    "supabaseUrl": "https://yjtgkiybbzwpgplvzsxt.supabase.co",
+    "authenticatedAnonymously": true
+  },
+  "dataset": {
+    "categories": 6,
+    "entities": 53,
+    "attributes": 34,
+    "questions": 34,
+    "aliases": 45,
+    "entityAttributes": 264,
+    "entityCategories": 53
+  },
+  "coverage": {
+    "averageAttributesPerEntity": 4.981132075471698,
+    "weakEntities": [],
+    "weakAttributes": [
+      {
+        "name": "is_plant",
+        "entityCount": 0
+      },
+      {
+        "name": "has_two_wheels",
+        "entityCount": 1
+      },
+      {
+        "name": "used_for_cleaning",
+        "entityCount": 1
+      }
+    ],
+    "orphanQuestions": [],
+    "uncategorizedEntities": [],
+    "entitiesWithoutAliases": [
+      "Apple",
+      "Banana",
+      "Bicycle",
+      "Cat",
+      "Coffee",
+      "Dog",
+      "Eagle",
+      "Laptop",
+      "Smartphone",
+      "Train",
+      "Water Bottle"
+    ],
+    "questionsWithValidAttributes": 34
+  }
+}
