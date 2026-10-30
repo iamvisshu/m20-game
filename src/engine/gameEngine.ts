@@ -8,6 +8,7 @@ import {
   DEFAULT_MAX_QUESTIONS,
   DEFAULT_MIN_GUESS_GAP,
   DEFAULT_MIN_GUESS_CONFIDENCE,
+  calculateCandidateConfidences,
   evaluateTermination,
   type TerminationConfig,
   type TerminationResult,
@@ -175,6 +176,17 @@ function getNextQuestion(
     context.categoriesByEntityId,
   )
 
+  const candidateConfidences = calculateCandidateConfidences(
+    state.rankedCandidates,
+  )
+
+  const candidateWeights = new Map(
+    candidateConfidences.map((candidate) => [
+      candidate.entityId,
+      candidate.confidence,
+    ]),
+  )
+
   return selectBestQuestion(
     context.questions,
     state.candidateIds,
@@ -182,6 +194,7 @@ function getNextQuestion(
     new Set(state.askedQuestionIds),
     {
       categoryFitByQuestionId,
+      candidateWeights,
     },
   )
 }

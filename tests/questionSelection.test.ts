@@ -266,4 +266,32 @@ describe('question selection', () => {
 
     expect(selected?.id).toBe('available')
   })
+
+  it('uses posterior candidate weights when calculating information gain', () => {
+    const knowledgeMap = new Map([
+      ['a:portable', knowledge('a', 'portable', true)],
+      ['b:portable', knowledge('b', 'portable', false)],
+      ['c:portable', knowledge('c', 'portable', false)],
+    ])
+
+    const uniformGain = calculateInformationGain(
+      ['a', 'b', 'c'],
+      knowledgeMap,
+      'portable',
+    )
+
+    const weightedGain = calculateInformationGain(
+      ['a', 'b', 'c'],
+      knowledgeMap,
+      'portable',
+      new Map([
+        ['a', 0.9],
+        ['b', 0.05],
+        ['c', 0.05],
+      ]),
+    )
+
+    expect(weightedGain).toBeLessThan(uniformGain)
+  })
+
 })

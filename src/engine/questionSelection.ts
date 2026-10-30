@@ -31,12 +31,13 @@ export interface QuestionSelectionConfig {
   minimumApplicability?: number
   applicabilityByQuestionId?: Map<string, number>
   categoryFitByQuestionId?: Map<string, number>
+  candidateWeights?: Map<string, number>
 }
 
 const DEFAULT_SELECTION_CONFIG: Required<
   Omit<
     QuestionSelectionConfig,
-    'applicabilityByQuestionId' | 'categoryFitByQuestionId'
+    'applicabilityByQuestionId' | 'categoryFitByQuestionId' | 'candidateWeights'
   >
 > = {
   coverageWeight: 0.5,
@@ -216,22 +217,75 @@ function calculateRedundancyPenalty(
   return 0
 }
 
+function normalizeCandidateWeights(
+  candidateIds: string[],
+  candidateWeights?: Map<string, number>,
+): Map<string, number> {
+  const weights = new Map<string, number>()
+
+  if (!candidateWeights) {
+    const uniformWeight = 1 / candidateIds.length
+
+    for (const candidateId of candidateIds) {
+      weights.set(candidateId, uniformWeight)
+    }
+
+    return weights
+  }
+
+  let total = 0
+
+  for (const candidateId of candidateIds) {
+    const weight = Math.max(0, candidateWeights.get(candidateId) ?? 0)
+    weights.set(candidateId, weight)
+    total += weight
+  }
+
+  if (total <= 0) {
+    const uniformWeight = 1 / candidateIds.length
+
+    for (const candidateId of candidateIds) {
+      weights.set(candidateId, uniformWeight)
+    }
+
+    return weights
+  }
+
+  for (const candidateId of candidateIds) {
+    weights.set(
+      candidateId,
+      (weights.get(candidateId) ?? 0) / total,
+    )
+  }
+
+  return weights
+}
+
 function calculateExpectedEntropy(
   candidateIds: string[],
   knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
   attributeId: string,
+  candidateWeights?: Map<string, number>,
 ): number {
   if (candidateIds.length <= 1) return 0
 
-  const answerProbabilities = ANSWER_STATES.map((answer) => {
-    const probability =
-      candidateIds.reduce((sum, candidateId) => {
-        const knowledge = knowledgeByEntityAttribute.get(
-          knowledgeKey(candidateId, attributeId),
-        )
+  const normalizedWeights = normalizeCandidateWeights(
+    candidateIds,
+    candidateWeights,
+  )
 
-        return sum + getAnswerStateProbability(answer, knowledge)
-      }, 0) / candidateIds.length
+  const answerProbabilities = ANSWER_STATES.map((answer) => {
+    const probability = candidateIds.reduce((sum, candidateId) => {
+      const knowledge = knowledgeByEntityAttribute.get(
+        knowledgeKey(candidateId, attributeId),
+      )
+
+      return (
+        sum +
+        (normalizedWeights.get(candidateId) ?? 0) *
+          getAnswerStateProbability(answer, knowledge)
+      )
+    }, 0)
 
     return {
       answer,
@@ -242,17 +296,17 @@ function calculateExpectedEntropy(
   return answerProbabilities.reduce((expectedEntropy, state) => {
     if (state.probability <= 0) return expectedEntropy
 
-    const posterior = candidateIds
-      .map((candidateId) => {
-        const knowledge = knowledgeByEntityAttribute.get(
-          knowledgeKey(candidateId, attributeId),
-        )
-
-        return getAnswerStateProbability(state.answer, knowledge)
-      })
-      .map(
-        (likelihood) => likelihood / (state.probability * candidateIds.length),
+    const posterior = candidateIds.map((candidateId) => {
+      const knowledge = knowledgeByEntityAttribute.get(
+        knowledgeKey(candidateId, attributeId),
       )
+
+      return (
+        ((normalizedWeights.get(candidateId) ?? 0) *
+          getAnswerStateProbability(state.answer, knowledge)) /
+        state.probability
+      )
+    })
 
     return expectedEntropy + state.probability * entropy(posterior)
   }, 0)
@@ -262,14 +316,21 @@ export function calculateInformationGain(
   candidateIds: string[],
   knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
   attributeId: string,
+  candidateWeights?: Map<string, number>,
 ): number {
   if (candidateIds.length <= 1) return 0
 
-  const priorEntropy = Math.log2(candidateIds.length)
+  const normalizedWeights = normalizeCandidateWeights(
+    candidateIds,
+    candidateWeights,
+  )
+
+  const priorEntropy = entropy([...normalizedWeights.values()])
   const expectedPosteriorEntropy = calculateExpectedEntropy(
     candidateIds,
     knowledgeByEntityAttribute,
     attributeId,
+    candidateWeights,
   )
 
   return Math.max(0, priorEntropy - expectedPosteriorEntropy)
@@ -303,6 +364,7 @@ export function selectBestQuestion(
       candidateIds,
       knowledgeByEntityAttribute,
       question.primaryAttributeId,
+      selectionConfig.candidateWeights,
     )
 
     const coverage = calculateCoverage(

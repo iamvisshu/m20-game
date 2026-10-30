@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29T16:23:47.808Z",
+  "generatedAt": "2026-10-30T14:49:49.004Z",
   "dataset": {
     "entities": 53,
     "questions": 49,
@@ -22,26 +22,26 @@
       "minGuessGap": 0.2
     },
     "totalGames": 53,
-    "correctGames": 31,
-    "wrongGames": 22,
-    "accuracy": 0.5849056603773585,
-    "averageQuestions": 18.547169811320753,
-    "medianQuestions": 20,
+    "correctGames": 46,
+    "wrongGames": 7,
+    "accuracy": 0.8679245283018868,
+    "averageQuestions": 11.037735849056604,
+    "medianQuestions": 8,
     "maxQuestions": 20,
-    "questionLimitRate": 0.6981132075471698,
-    "earlyGuessRate": 0.3018867924528302,
+    "questionLimitRate": 0.3018867924528302,
+    "earlyGuessRate": 0.6981132075471698,
     "noQuestionsRemainingRate": 0,
-    "wrongGuessRate": 0.41509433962264153,
-    "averageFinalConfidence": 0.46295160231351024,
-    "averageQuestionEffectiveness": 0.22029390913873428,
+    "wrongGuessRate": 0.1320754716981132,
+    "averageFinalConfidence": 0.678394183539181,
+    "averageQuestionEffectiveness": 0.48474443019698227,
     "averageFinalCandidateCount": 53,
-    "averageFinalConfidenceGap": 0.2397299846573968,
+    "averageFinalConfidenceGap": 0.48632898092421095,
     "perEntity": {
       "85160c17-b8b3-41f7-b91f-4a17846f09d9": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 19,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "85160c17-b8b3-41f7-b91f-4a17846f09d9"
         ]
@@ -50,18 +50,18 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "085b8dee-4be3-4f29-b2c0-fd1836ef04c6"
         ]
       },
       "06058a52-657c-4978-ac95-845687380527": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 6,
         "guessedEntityIds": [
-          "085b8dee-4be3-4f29-b2c0-fd1836ef04c6"
+          "06058a52-657c-4978-ac95-845687380527"
         ]
       },
       "55ec379c-9482-49ec-88c2-83f26d5ded0d": {
@@ -77,25 +77,25 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "0816330e-39b0-4652-a4cd-eb0c4c5d408e"
         ]
       },
       "a5febf85-5e94-475a-a47f-99c820c4b961": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "0816330e-39b0-4652-a4cd-eb0c4c5d408e"
+          "a5febf85-5e94-475a-a47f-99c820c4b961"
         ]
       },
       "53aaf4c4-7a90-4517-9210-611d734ca85f": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "53aaf4c4-7a90-4517-9210-611d734ca85f"
         ]
@@ -104,7 +104,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 13,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "41fc0e09-807b-4728-ae4e-2b015f1ed461"
         ]
@@ -113,7 +113,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 16,
+        "averageQuestions": 8,
         "guessedEntityIds": [
           "474fe07e-1c34-4a59-b41c-2460ccdfb1ef"
         ]
@@ -122,7 +122,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 16,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "61556bad-39e7-43a8-976a-72b3cc73d8fd"
         ]
@@ -131,7 +131,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "8c950914-4e53-4153-8f77-171edc5bd52f"
         ]
@@ -140,7 +140,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 14,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "16ebb3b5-ba47-4161-abbc-d77f8381ed51"
         ]
@@ -149,7 +149,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 8,
         "guessedEntityIds": [
           "5bb35996-2a24-4ca3-a9c2-7c61639c0abd"
         ]
@@ -167,25 +167,25 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 9,
         "guessedEntityIds": [
           "00f3802d-06a9-411b-919b-b9874a6f6f4f"
         ]
       },
       "440ebc9a-5679-40ee-a014-7c87876d346b": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 8,
         "guessedEntityIds": [
-          "5bb35996-2a24-4ca3-a9c2-7c61639c0abd"
+          "440ebc9a-5679-40ee-a014-7c87876d346b"
         ]
       },
       "e969e036-59e5-4dcd-aad5-d067325d4479": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 8,
         "guessedEntityIds": [
           "e969e036-59e5-4dcd-aad5-d067325d4479"
         ]
@@ -194,7 +194,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 14,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "6ed284fd-f3b9-47be-a260-1fc40feffe6a"
         ]
@@ -203,7 +203,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 15,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "0e4b3799-4a4e-415b-8797-2e8b71f82701"
         ]
@@ -212,7 +212,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 13,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "e45dd5be-204c-484d-89ae-1221a34b1d0b"
         ]
@@ -228,11 +228,11 @@
       },
       "5c749972-533a-44aa-b443-588473259b9c": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+          "5c749972-533a-44aa-b443-588473259b9c"
         ]
       },
       "e81cbd56-f47a-4e2b-9fba-93ab7fddb98a": {
@@ -246,29 +246,29 @@
       },
       "8be6e7d7-4d94-4555-ada6-ecc83e196680": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+          "8be6e7d7-4d94-4555-ada6-ecc83e196680"
         ]
       },
       "eaa0782c-7c76-47d8-b22d-a2470634ad6e": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+          "eaa0782c-7c76-47d8-b22d-a2470634ad6e"
         ]
       },
       "445b125e-a92e-4d6e-ac42-958573395165": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 9,
         "guessedEntityIds": [
-          "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+          "445b125e-a92e-4d6e-ac42-958573395165"
         ]
       },
       "a710dcc1-194a-404e-a389-08efe4a568f4": {
@@ -282,29 +282,29 @@
       },
       "59145929-0950-46cf-a715-85360bb4c722": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "a710dcc1-194a-404e-a389-08efe4a568f4"
+          "59145929-0950-46cf-a715-85360bb4c722"
         ]
       },
       "4bdd8533-738f-45b7-b023-3bffe92c2b93": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 10,
         "guessedEntityIds": [
           "4bdd8533-738f-45b7-b023-3bffe92c2b93"
         ]
       },
       "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
+        "correct": 1,
+        "accuracy": 1,
         "averageQuestions": 20,
         "guessedEntityIds": [
-          "a710dcc1-194a-404e-a389-08efe4a568f4"
+          "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed"
         ]
       },
       "f97bf48e-ff66-463b-8f15-f9fafeb6198b": {
@@ -313,16 +313,16 @@
         "accuracy": 0,
         "averageQuestions": 20,
         "guessedEntityIds": [
-          "a710dcc1-194a-404e-a389-08efe4a568f4"
+          "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed"
         ]
       },
       "162c428a-0877-4b09-9267-a661cefc8348": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "4bdd8533-738f-45b7-b023-3bffe92c2b93"
+          "162c428a-0877-4b09-9267-a661cefc8348"
         ]
       },
       "808f0817-4d01-4e45-bd51-3b27380da6f9": {
@@ -345,38 +345,38 @@
       },
       "a0a1946e-edd9-4a32-9e7a-0f77a8140aac": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 6,
         "guessedEntityIds": [
-          "808f0817-4d01-4e45-bd51-3b27380da6f9"
+          "a0a1946e-edd9-4a32-9e7a-0f77a8140aac"
         ]
       },
       "ad0eac7c-bfec-4370-9ea1-9edc314e2e4a": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 7,
         "guessedEntityIds": [
-          "4bdd8533-738f-45b7-b023-3bffe92c2b93"
+          "ad0eac7c-bfec-4370-9ea1-9edc314e2e4a"
         ]
       },
       "a81a0a9f-718e-4159-8fb7-bd5462d5d876": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
         ]
       },
       "05e48061-eb88-48b5-a0c2-137bafe6e56a": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
+        "correct": 1,
+        "accuracy": 1,
         "averageQuestions": 20,
         "guessedEntityIds": [
-          "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
+          "05e48061-eb88-48b5-a0c2-137bafe6e56a"
         ]
       },
       "701ba361-2d37-4600-b355-1dbaad792460": {
@@ -385,14 +385,14 @@
         "accuracy": 0,
         "averageQuestions": 20,
         "guessedEntityIds": [
-          "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
+          "05e48061-eb88-48b5-a0c2-137bafe6e56a"
         ]
       },
       "cc0cb614-32d7-43e7-9ff4-2a754b4af858": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 8,
         "guessedEntityIds": [
           "cc0cb614-32d7-43e7-9ff4-2a754b4af858"
         ]
@@ -419,34 +419,34 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 20,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "118c62d9-798e-4eba-9acd-f6aacc6eef3d"
         ]
       },
       "e3ac911a-42b5-4cae-bf87-6f35e9c73f25": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 8,
         "guessedEntityIds": [
-          "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
+          "e3ac911a-42b5-4cae-bf87-6f35e9c73f25"
         ]
       },
       "97961cbf-03da-437d-a81c-521ca52f4e0c": {
         "games": 1,
-        "correct": 0,
-        "accuracy": 0,
-        "averageQuestions": 20,
+        "correct": 1,
+        "accuracy": 1,
+        "averageQuestions": 8,
         "guessedEntityIds": [
-          "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
+          "97961cbf-03da-437d-a81c-521ca52f4e0c"
         ]
       },
       "56d6dd56-cb93-4ceb-91c3-d044576b3ed2": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 19,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "56d6dd56-cb93-4ceb-91c3-d044576b3ed2"
         ]
@@ -500,7 +500,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 19,
+        "averageQuestions": 9,
         "guessedEntityIds": [
           "d8eb0626-d11a-4a12-838d-6038880c886f"
         ]
@@ -509,7 +509,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 11,
+        "averageQuestions": 6,
         "guessedEntityIds": [
           "c36812af-12c3-4366-93db-52272f3a5e59"
         ]
@@ -517,46 +517,6 @@
     }
   },
   "failedEntities": [
-    {
-      "targetEntityId": "06058a52-657c-4978-ac95-845687380527",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "085b8dee-4be3-4f29-b2c0-fd1836ef04c6"
-      ]
-    },
-    {
-      "targetEntityId": "a5febf85-5e94-475a-a47f-99c820c4b961",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "0816330e-39b0-4652-a4cd-eb0c4c5d408e"
-      ]
-    },
-    {
-      "targetEntityId": "440ebc9a-5679-40ee-a014-7c87876d346b",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "5bb35996-2a24-4ca3-a9c2-7c61639c0abd"
-      ]
-    },
-    {
-      "targetEntityId": "5c749972-533a-44aa-b443-588473259b9c",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "e65e69b0-4190-475a-85b5-29b4a0b763fe"
-      ]
-    },
     {
       "targetEntityId": "e81cbd56-f47a-4e2b-9fba-93ab7fddb98a",
       "games": 1,
@@ -568,73 +528,13 @@
       ]
     },
     {
-      "targetEntityId": "8be6e7d7-4d94-4555-ada6-ecc83e196680",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "e65e69b0-4190-475a-85b5-29b4a0b763fe"
-      ]
-    },
-    {
-      "targetEntityId": "eaa0782c-7c76-47d8-b22d-a2470634ad6e",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "e65e69b0-4190-475a-85b5-29b4a0b763fe"
-      ]
-    },
-    {
-      "targetEntityId": "445b125e-a92e-4d6e-ac42-958573395165",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "e65e69b0-4190-475a-85b5-29b4a0b763fe"
-      ]
-    },
-    {
-      "targetEntityId": "59145929-0950-46cf-a715-85360bb4c722",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "a710dcc1-194a-404e-a389-08efe4a568f4"
-      ]
-    },
-    {
-      "targetEntityId": "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "a710dcc1-194a-404e-a389-08efe4a568f4"
-      ]
-    },
-    {
       "targetEntityId": "f97bf48e-ff66-463b-8f15-f9fafeb6198b",
       "games": 1,
       "correct": 0,
       "accuracy": 0,
       "averageQuestions": 20,
       "guessedEntityIds": [
-        "a710dcc1-194a-404e-a389-08efe4a568f4"
-      ]
-    },
-    {
-      "targetEntityId": "162c428a-0877-4b09-9267-a661cefc8348",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "4bdd8533-738f-45b7-b023-3bffe92c2b93"
+        "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed"
       ]
     },
     {
@@ -648,67 +548,17 @@
       ]
     },
     {
-      "targetEntityId": "a0a1946e-edd9-4a32-9e7a-0f77a8140aac",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "808f0817-4d01-4e45-bd51-3b27380da6f9"
-      ]
-    },
-    {
-      "targetEntityId": "ad0eac7c-bfec-4370-9ea1-9edc314e2e4a",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "4bdd8533-738f-45b7-b023-3bffe92c2b93"
-      ]
-    },
-    {
-      "targetEntityId": "05e48061-eb88-48b5-a0c2-137bafe6e56a",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
-      ]
-    },
-    {
       "targetEntityId": "701ba361-2d37-4600-b355-1dbaad792460",
       "games": 1,
       "correct": 0,
       "accuracy": 0,
       "averageQuestions": 20,
       "guessedEntityIds": [
-        "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
+        "05e48061-eb88-48b5-a0c2-137bafe6e56a"
       ]
     },
     {
       "targetEntityId": "2c451254-101a-40bd-ba9b-17a07de153fa",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
-      ]
-    },
-    {
-      "targetEntityId": "e3ac911a-42b5-4cae-bf87-6f35e9c73f25",
-      "games": 1,
-      "correct": 0,
-      "accuracy": 0,
-      "averageQuestions": 20,
-      "guessedEntityIds": [
-        "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
-      ]
-    },
-    {
-      "targetEntityId": "97961cbf-03da-437d-a81c-521ca52f4e0c",
       "games": 1,
       "correct": 0,
       "accuracy": 0,
