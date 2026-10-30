@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-30T16:25:32.653Z",
+  "generatedAt": "2026-10-30T18:47:07.393Z",
   "dataset": {
     "entities": 53,
     "questions": 49,
@@ -25,23 +25,23 @@
     "correctGames": 46,
     "wrongGames": 7,
     "accuracy": 0.8679245283018868,
-    "averageQuestions": 11.037735849056604,
+    "averageQuestions": 11.056603773584905,
     "medianQuestions": 8,
     "maxQuestions": 20,
     "questionLimitRate": 0.3018867924528302,
     "earlyGuessRate": 0.6981132075471698,
     "noQuestionsRemainingRate": 0,
     "wrongGuessRate": 0.1320754716981132,
-    "averageFinalConfidence": 0.678394183539181,
-    "averageQuestionEffectiveness": 0.48474443019698227,
+    "averageFinalConfidence": 0.6785975492989224,
+    "averageQuestionEffectiveness": 0.4848168871912108,
     "averageFinalCandidateCount": 53,
-    "averageFinalConfidenceGap": 0.48632898092421095,
+    "averageFinalConfidenceGap": 0.4821798196136327,
     "perEntity": {
       "85160c17-b8b3-41f7-b91f-4a17846f09d9": {
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 6,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "85160c17-b8b3-41f7-b91f-4a17846f09d9"
         ]
@@ -50,7 +50,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 6,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "085b8dee-4be3-4f29-b2c0-fd1836ef04c6"
         ]
@@ -59,7 +59,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 6,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "06058a52-657c-4978-ac95-845687380527"
         ]
@@ -113,7 +113,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 8,
+        "averageQuestions": 7,
         "guessedEntityIds": [
           "474fe07e-1c34-4a59-b41c-2460ccdfb1ef"
         ]
@@ -230,7 +230,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 7,
+        "averageQuestions": 8,
         "guessedEntityIds": [
           "5c749972-533a-44aa-b443-588473259b9c"
         ]
@@ -293,7 +293,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 10,
+        "averageQuestions": 9,
         "guessedEntityIds": [
           "4bdd8533-738f-45b7-b023-3bffe92c2b93"
         ]
@@ -347,7 +347,7 @@
         "games": 1,
         "correct": 1,
         "accuracy": 1,
-        "averageQuestions": 6,
+        "averageQuestions": 5,
         "guessedEntityIds": [
           "a0a1946e-edd9-4a32-9e7a-0f77a8140aac"
         ]
