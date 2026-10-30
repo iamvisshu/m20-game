@@ -1,0 +1,156 @@
+[
+  {
+    "targetEntityId": "06058a52-657c-4978-ac95-845687380527",
+    "guessed": [
+      "085b8dee-4be3-4f29-b2c0-fd1836ef04c6"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "a5febf85-5e94-475a-a47f-99c820c4b961",
+    "guessed": [
+      "0816330e-39b0-4652-a4cd-eb0c4c5d408e"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "440ebc9a-5679-40ee-a014-7c87876d346b",
+    "guessed": [
+      "5bb35996-2a24-4ca3-a9c2-7c61639c0abd"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "5c749972-533a-44aa-b443-588473259b9c",
+    "guessed": [
+      "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "e81cbd56-f47a-4e2b-9fba-93ab7fddb98a",
+    "guessed": [
+      "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "8be6e7d7-4d94-4555-ada6-ecc83e196680",
+    "guessed": [
+      "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "eaa0782c-7c76-47d8-b22d-a2470634ad6e",
+    "guessed": [
+      "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "445b125e-a92e-4d6e-ac42-958573395165",
+    "guessed": [
+      "e65e69b0-4190-475a-85b5-29b4a0b763fe"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "59145929-0950-46cf-a715-85360bb4c722",
+    "guessed": [
+      "a710dcc1-194a-404e-a389-08efe4a568f4"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "6d6158e3-14a2-4613-b3e8-3fe9bd3e42ed",
+    "guessed": [
+      "a710dcc1-194a-404e-a389-08efe4a568f4"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "f97bf48e-ff66-463b-8f15-f9fafeb6198b",
+    "guessed": [
+      "a710dcc1-194a-404e-a389-08efe4a568f4"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "162c428a-0877-4b09-9267-a661cefc8348",
+    "guessed": [
+      "4bdd8533-738f-45b7-b023-3bffe92c2b93"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "a7ba8e39-ccfb-4f45-b134-fd221de9c306",
+    "guessed": [
+      "808f0817-4d01-4e45-bd51-3b27380da6f9"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "a0a1946e-edd9-4a32-9e7a-0f77a8140aac",
+    "guessed": [
+      "808f0817-4d01-4e45-bd51-3b27380da6f9"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "ad0eac7c-bfec-4370-9ea1-9edc314e2e4a",
+    "guessed": [
+      "4bdd8533-738f-45b7-b023-3bffe92c2b93"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "05e48061-eb88-48b5-a0c2-137bafe6e56a",
+    "guessed": [
+      "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "701ba361-2d37-4600-b355-1dbaad792460",
+    "guessed": [
+      "a81a0a9f-718e-4159-8fb7-bd5462d5d876"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "2c451254-101a-40bd-ba9b-17a07de153fa",
+    "guessed": [
+      "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "e3ac911a-42b5-4cae-bf87-6f35e9c73f25",
+    "guessed": [
+      "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "97961cbf-03da-437d-a81c-521ca52f4e0c",
+    "guessed": [
+      "3b0a58fd-07fb-4f0f-b2c1-4bfefc762171"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "bc09520c-129a-45b0-9b98-771f0c248d02",
+    "guessed": [
+      "f42fccdd-bd20-4d8c-9e3a-f8dee2cfc034"
+    ],
+    "accuracy": 0
+  },
+  {
+    "targetEntityId": "29adb99e-2bc7-4597-8528-b7b5b134f4ce",
+    "guessed": [
+      "18550f0a-1628-4706-9adf-6a9299a5547f"
+    ],
+    "accuracy": 0
+  }
+]

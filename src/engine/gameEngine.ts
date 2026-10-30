@@ -16,6 +16,7 @@ import {
 export interface GameEngineContext {
   questions: Question[]
   knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>
+  categoriesByEntityId?: Map<string, string[]>
   terminationConfig?: TerminationConfig
 }
 
@@ -81,15 +82,107 @@ function getTerminationConfig(context: GameEngineContext): TerminationConfig {
   )
 }
 
+function calculateCategoryFitByQuestionId(
+  candidateIds: string[],
+  questions: Question[],
+  knowledgeByEntityAttribute: Map<KnowledgeKey, EntityAttributeKnowledge>,
+  categoriesByEntityId: Map<string, string[]> | undefined,
+): Map<string, number> {
+  const result = new Map<string, number>()
+
+  if (!categoriesByEntityId || candidateIds.length === 0) {
+    return result
+  }
+
+  const categoryCounts = new Map<string, number>()
+
+  for (const candidateId of candidateIds) {
+    const categories = categoriesByEntityId.get(candidateId) ?? []
+
+    for (const categoryId of categories) {
+      categoryCounts.set(
+        categoryId,
+        (categoryCounts.get(categoryId) ?? 0) + 1,
+      )
+    }
+  }
+
+  const dominantCategory = [...categoryCounts.entries()].sort(
+    (a, b) => b[1] - a[1],
+  )[0]
+
+  if (!dominantCategory) {
+    return result
+  }
+
+  const [categoryId, categoryCount] = dominantCategory
+  const dominance = categoryCount / candidateIds.length
+
+  if (dominance < 0.5) {
+    return result
+  }
+
+  const categoryCandidateIds = candidateIds.filter((candidateId) =>
+    (categoriesByEntityId.get(candidateId) ?? []).includes(categoryId),
+  )
+
+  if (categoryCandidateIds.length <= 1) {
+    return result
+  }
+
+  for (const question of questions) {
+    const knownValues = categoryCandidateIds
+      .map((candidateId) =>
+        knowledgeByEntityAttribute.get(
+          `${candidateId}:${question.primaryAttributeId}`,
+        ),
+      )
+      .filter(
+        (knowledge): knowledge is EntityAttributeKnowledge =>
+          Boolean(knowledge && knowledge.confidence > 0),
+      )
+
+    if (knownValues.length === 0) {
+      result.set(question.id, 0)
+      continue
+    }
+
+    const yesCount = knownValues.filter((knowledge) => knowledge.value).length
+    const noCount = knownValues.length - yesCount
+
+    const discrimination =
+      Math.min(yesCount, noCount) / Math.max(1, knownValues.length / 2)
+
+    const coverage = knownValues.length / categoryCandidateIds.length
+
+    result.set(
+      question.id,
+      Math.max(0, Math.min(1, discrimination * coverage)),
+    )
+  }
+
+  return result
+}
+
 function getNextQuestion(
   state: GameState,
   context: GameEngineContext,
 ): Question | undefined {
+  const categoryFitByQuestionId = calculateCategoryFitByQuestionId(
+    state.candidateIds,
+    context.questions,
+    context.knowledgeByEntityAttribute,
+    context.categoriesByEntityId,
+  )
+
   return selectBestQuestion(
     context.questions,
     state.candidateIds,
     context.knowledgeByEntityAttribute,
     new Set(state.askedQuestionIds),
+    {
+      categoryFitByQuestionId,
+    },
   )
 }
 

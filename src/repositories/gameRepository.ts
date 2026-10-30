@@ -19,6 +19,10 @@ export interface GameRepository {
 
   loadEntityNames(entityIds: string[]): Promise<Map<string, string>>
 
+  loadCategoryIdsByEntity(
+    entityIds: string[],
+  ): Promise<Map<string, string[]>>
+
   recordAnswer(
     gameId: string,
     questionId: string,

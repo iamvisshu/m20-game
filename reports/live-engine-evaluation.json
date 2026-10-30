@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-10-29T12:49:53.887Z",
+  "generatedAt": "2026-10-29T16:23:47.808Z",
   "dataset": {
     "entities": 53,
-    "questions": 34,
-    "knowledgeEntries": 1802
+    "questions": 49,
+    "knowledgeEntries": 1857
   },
   "config": {
     "gamesPerEntity": 1,

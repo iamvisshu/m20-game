@@ -31,8 +31,8 @@ describe('M20 live engine evaluation', () => {
       console.log('')
 
       expect(engineEntities).toHaveLength(53)
-      expect(engineQuestions).toHaveLength(34)
-      expect(knowledgeByEntityAttribute.size).toBe(1802)
+      expect(engineQuestions).toHaveLength(49)
+      expect(knowledgeByEntityAttribute.size).toBe(1857)
 
       console.log('DIAGNOSTIC')
       console.log('----------')
@@ -84,6 +84,9 @@ describe('M20 live engine evaluation', () => {
             minGuessConfidence: 0.65,
             minGuessGap: 0.2,
           },
+          categoriesByEntityId: new Map(
+            Object.entries(adapted.categoryIdsByEntity),
+          ),
         },
       )
 

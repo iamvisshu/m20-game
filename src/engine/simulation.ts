@@ -27,6 +27,7 @@ export interface SimulationConfig {
   answerProfile: SimulationAnswerProfile
   engineConfig?: Partial<SimulationEngineConfig>
   maxSafetySteps?: number
+  categoriesByEntityId?: Map<string, string[]>
 }
 
 export type SimulationKnowledgeKey = `${string}:${string}`
@@ -237,6 +238,7 @@ export function runSimulation(
       const context: GameEngineContext = {
         questions,
         knowledgeByEntityAttribute,
+        categoriesByEntityId: config.categoriesByEntityId,
         terminationConfig: engineConfig,
       }
 

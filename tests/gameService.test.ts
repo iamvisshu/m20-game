@@ -36,6 +36,9 @@ function createRepository(): GameRepository {
     loadEntityNames: vi
       .fn()
       .mockResolvedValue(new Map([[entityId, 'Test Entity']])),
+    loadCategoryIdsByEntity: vi
+      .fn()
+      .mockResolvedValue(new Map([[entityId, [categoryId]]])),
     recordAnswer: vi.fn().mockResolvedValue('answer-1'),
     finalizeGame: vi.fn().mockResolvedValue(undefined),
     applyLearning: vi.fn().mockResolvedValue(1),

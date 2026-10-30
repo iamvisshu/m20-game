@@ -138,6 +138,33 @@ export const supabaseGameRepository: GameRepository = {
     )
   },
 
+  async loadCategoryIdsByEntity(entityIds) {
+    if (entityIds.length === 0) {
+      return new Map()
+    }
+
+    const { data, error } = await supabase
+      .from('entity_categories')
+      .select('entity_id, category_id')
+      .in('entity_id', entityIds)
+
+    if (error) {
+      throw new Error(
+        `Failed to load entity categories: ${error.message}`,
+      )
+    }
+
+    const categoriesByEntity = new Map<string, string[]>()
+
+    for (const row of data ?? []) {
+      const categories = categoriesByEntity.get(row.entity_id) ?? []
+      categories.push(row.category_id)
+      categoriesByEntity.set(row.entity_id, categories)
+    }
+
+    return categoriesByEntity
+  },
+
   async recordAnswer(gameId: string, questionId: string, answer: AnswerValue) {
     const { data, error } = await supabase.rpc('record_answer', {
       p_game_id: gameId,

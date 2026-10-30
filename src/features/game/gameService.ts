@@ -25,14 +25,20 @@ export async function startGame(
     repository.loadQuestions(),
   ])
 
-  const [knowledgeByEntityAttribute, entityNames] = await Promise.all([
+  const [
+    knowledgeByEntityAttribute,
+    entityNames,
+    categoriesByEntityId,
+  ] = await Promise.all([
     repository.loadKnowledge(candidateIds),
     repository.loadEntityNames(candidateIds),
+    repository.loadCategoryIdsByEntity(candidateIds),
   ])
 
   const context: GameEngineContext = {
     questions,
     knowledgeByEntityAttribute,
+    categoriesByEntityId,
   }
 
   const state = createGame(candidateIds, context, gameId)
