@@ -75,7 +75,12 @@ async function main() {
 
   const engineEntities = adapted.entities;
   const engineQuestions = adapted.questions;
-  const knowledgeByEntityAttribute = adapted.knowledgeMap;
+  const knowledgeByEntityAttribute = new Map(
+    adapted.knowledge.map((knowledge) => [
+      `${knowledge.entityId}:${knowledge.attributeId}`,
+      knowledge,
+    ]),
+  );
 
   console.log('ENGINE INPUT');
   console.log('------------');
